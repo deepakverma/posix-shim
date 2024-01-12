@@ -33,7 +33,7 @@ int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int t
         return -1;
     }
 
-    TRACE("epfd=%d, events=%p, maxevents=%d, timeout=%d", epfd, (void *)events, maxevents, timeout);
+    //TRACE("epfd=%d, events=%p, maxevents=%d, timeout=%d", epfd, (void *)events, maxevents, timeout);
 
     // Traverse events.
     for (int i = 0; i < MAX_EVENTS && i < maxevents; i++)
@@ -52,7 +52,7 @@ int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int t
 
             if (ret != 0)
             {
-                ERROR("demi_timedwait() failed - %s", strerror(ret));
+                //ERROR("demi_timedwait() failed - %s", strerror(ret));
                 continue;
             }
 

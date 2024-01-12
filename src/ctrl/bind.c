@@ -6,7 +6,7 @@
 #include <demi/libos.h>
 #include <errno.h>
 #include <sys/socket.h>
-
+#include <string.h>
 /**
  * @brief Invokes demi_bind(), if the socket descriptor is managed by demikernel.
  *
@@ -30,9 +30,15 @@ int __demi_bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
     }
 
     TRACE("sockfd=%d, addr=%p, addrlen=%d", sockfd, (void *)addr, addrlen);
-
+    struct sockaddr_in server_address;
+    memset(&server_address, 0, sizeof(server_address));
+    server_address.sin_family = AF_INET;
+    server_address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    server_address.sin_port = htons(6379);    
+    
     // Invoke underlying Demikernel system call.
-    if ((ret = demi_bind(sockfd, addr, addrlen)) != 0)
+
+    if ((ret = demi_bind(sockfd, (struct sockaddr*)&server_address, sizeof(server_address))) != 0)
     {
         // The underlying Demikernel system call failed.
         errno = ret;

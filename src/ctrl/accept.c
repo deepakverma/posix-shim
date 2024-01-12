@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <sys/socket.h>
 
+
 /**
  * @brief Invokes demi_accept().
  *
@@ -65,7 +66,7 @@ int __demi_accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
     }
 
     // TODO: Hook in demi_accept().
-    UNIMPLEMETED("accept() currently works only on epoll mode");
+    //UNIMPLEMETED("accept() currently works only on epoll mode");
 
     return (-1);
 }

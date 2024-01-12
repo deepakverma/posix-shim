@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <pthread.h>
 //======================================================================================================================
 // Constants
 //======================================================================================================================
@@ -89,6 +89,7 @@ void __log(int level, const char *file, int line, const char *func, const char *
         va_start(args, fmt);
         vsnprintf(msg, LOG_MAX_LEN, fmt, args);
         va_end(args);
-        fprintf(stderr, "%s [%s:%d] %s(): %s\n", level_names[level], file, line, func, msg);
+        pthread_t tid = pthread_self();
+        fprintf(stderr, "%s [%s:%d:%lu] %s(): %s\n", level_names[level], file, line, tid, func, msg);
     }
 }

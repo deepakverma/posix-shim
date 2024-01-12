@@ -18,15 +18,23 @@
 #include <sys/socket.h>
 #include <sys/syscall.h>
 #include <unistd.h>
+#include <pthread.h>
+#include <stdatomic.h>
 
+
+static pthread_mutex_t demimutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t demimutex2 = PTHREAD_MUTEX_INITIALIZER;
 #define INTERPOSE_CALL(type, fn_libc, fn_demi, ...)                                                                    \
-    {                                                                                                                  \
+    { /* TRACE("interpose locking");*/   \
+        pthread_mutex_lock(&demimutex2);\
+       /* TRACE("interpose locked");*/                                                                                     \
         type ret = -1;                                                                                                 \
         static bool reentrant = false;                                                                                 \
-                                                                                                                       \
-        if ((!initialized) || (reentrant))                                                                             \
+        if ((!initialized) || (reentrant)) {                                                                            \
+            pthread_mutex_unlock(&demimutex2);\
+            TRACE("interpose unlocked not-init %d", initialized);\
             return (fn_libc(__VA_ARGS__));                                                                             \
-                                                                                                                       \
+        }                                                                                                              \
         init();                                                                                                        \
                                                                                                                        \
         int last_errno = errno;                                                                                        \
@@ -38,9 +46,13 @@
         if ((ret) == -1 && (errno == EBADF))                                                                           \
         {                                                                                                              \
             errno = last_errno;                                                                                        \
+            pthread_mutex_unlock(&demimutex2);\
+           /* TRACE("interpose unlocked err %d", ret);*/\
             return fn_libc(__VA_ARGS__);                                                                               \
         }                                                                                                              \
                                                                                                                        \
+        pthread_mutex_unlock(&demimutex2);\
+        /*TRACE("interpose unlocked return");*/\
         return ret;                                                                                                    \
     }
 
@@ -111,46 +123,57 @@ static int (*libc_epoll_create1)(int) = NULL;
 static int (*libc_epoll_ctl)(int, int, int, struct epoll_event *) = NULL;
 static int (*libc_epoll_wait)(int, struct epoll_event *, int, int) = NULL;
 
-static bool initialized = false;
-
+static _Atomic bool initialized = false;
 static void init(void)
 {
+    //TRACE("init");
     if (!initialized)
-    {
-        assert((libc_socket = dlsym(RTLD_NEXT, "socket")) != NULL);
-        assert((libc_shutdown = dlsym(RTLD_NEXT, "shutdown")) != NULL);
-        assert((libc_bind = dlsym(RTLD_NEXT, "bind")) != NULL);
-        assert((libc_connect = dlsym(RTLD_NEXT, "connect")) != NULL);
-        assert((libc_listen = dlsym(RTLD_NEXT, "listen")) != NULL);
-        assert((libc_accept4 = dlsym(RTLD_NEXT, "accept4")) != NULL);
-        assert((libc_accept = dlsym(RTLD_NEXT, "accept")) != NULL);
-        assert((libc_getsockopt = dlsym(RTLD_NEXT, "getsockopt")) != NULL);
-        assert((libc_setsockopt = dlsym(RTLD_NEXT, "setsockopt")) != NULL);
-        assert((libc_getsockname = dlsym(RTLD_NEXT, "getsockname")) != NULL);
-        assert((libc_getpeername = dlsym(RTLD_NEXT, "getpeername")) != NULL);
-        assert((libc_read = dlsym(RTLD_NEXT, "read")) != NULL);
-        assert((libc_recv = dlsym(RTLD_NEXT, "recv")) != NULL);
-        assert((libc_recvfrom = dlsym(RTLD_NEXT, "recvfrom")) != NULL);
-        assert((libc_recvmsg = dlsym(RTLD_NEXT, "recvmsg")) != NULL);
-        assert((libc_readv = dlsym(RTLD_NEXT, "readv")) != NULL);
-        assert((libc_pread = dlsym(RTLD_NEXT, "pread")) != NULL);
-        assert((libc_write = dlsym(RTLD_NEXT, "write")) != NULL);
-        assert((libc_send = dlsym(RTLD_NEXT, "send")) != NULL);
-        assert((libc_sendto = dlsym(RTLD_NEXT, "sendto")) != NULL);
-        assert((libc_sendmsg = dlsym(RTLD_NEXT, "sendmsg")) != NULL);
-        assert((libc_writev = dlsym(RTLD_NEXT, "writev")) != NULL);
-        assert((libc_pwrite = dlsym(RTLD_NEXT, "pwrite")) != NULL);
-        assert((libc_close = dlsym(RTLD_NEXT, "close")) != NULL);
-        assert((libc_epoll_create = dlsym(RTLD_NEXT, "epoll_create")) != NULL);
-        assert((libc_epoll_create1 = dlsym(RTLD_NEXT, "epoll_create1")) != NULL);
-        assert((libc_epoll_ctl = dlsym(RTLD_NEXT, "epoll_ctl")) != NULL);
-        assert((libc_epoll_wait = dlsym(RTLD_NEXT, "epoll_wait")) != NULL);
-
-        if (__demi_init() != 0)
-            abort();
-
-        initialized = true;
-    }
+        {
+        pthread_mutex_lock(&demimutex);
+        
+    if (!initialized)
+        {
+            TRACE("locked and init");
+            pthread_mutexattr_t attr;
+            pthread_mutexattr_init(&attr);
+            pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+            pthread_mutex_init(&demimutex2, &attr);            
+            assert((libc_socket = dlsym(RTLD_NEXT, "socket")) != NULL);
+            assert((libc_shutdown = dlsym(RTLD_NEXT, "shutdown")) != NULL);
+            assert((libc_bind = dlsym(RTLD_NEXT, "bind")) != NULL);
+            assert((libc_connect = dlsym(RTLD_NEXT, "connect")) != NULL);
+            assert((libc_listen = dlsym(RTLD_NEXT, "listen")) != NULL);
+            assert((libc_accept4 = dlsym(RTLD_NEXT, "accept4")) != NULL);
+            assert((libc_accept = dlsym(RTLD_NEXT, "accept")) != NULL);
+            assert((libc_getsockopt = dlsym(RTLD_NEXT, "getsockopt")) != NULL);
+            assert((libc_setsockopt = dlsym(RTLD_NEXT, "setsockopt")) != NULL);
+            assert((libc_getsockname = dlsym(RTLD_NEXT, "getsockname")) != NULL);
+            assert((libc_getpeername = dlsym(RTLD_NEXT, "getpeername")) != NULL);
+            assert((libc_read = dlsym(RTLD_NEXT, "read")) != NULL);
+            assert((libc_recv = dlsym(RTLD_NEXT, "recv")) != NULL);
+            assert((libc_recvfrom = dlsym(RTLD_NEXT, "recvfrom")) != NULL);
+            assert((libc_recvmsg = dlsym(RTLD_NEXT, "recvmsg")) != NULL);
+            assert((libc_readv = dlsym(RTLD_NEXT, "readv")) != NULL);
+            assert((libc_pread = dlsym(RTLD_NEXT, "pread")) != NULL);
+            assert((libc_write = dlsym(RTLD_NEXT, "write")) != NULL);
+            assert((libc_send = dlsym(RTLD_NEXT, "send")) != NULL);
+            assert((libc_sendto = dlsym(RTLD_NEXT, "sendto")) != NULL);
+            assert((libc_sendmsg = dlsym(RTLD_NEXT, "sendmsg")) != NULL);
+            assert((libc_writev = dlsym(RTLD_NEXT, "writev")) != NULL);
+            assert((libc_pwrite = dlsym(RTLD_NEXT, "pwrite")) != NULL);
+            assert((libc_close = dlsym(RTLD_NEXT, "close")) != NULL);
+            assert((libc_epoll_create = dlsym(RTLD_NEXT, "epoll_create")) != NULL);
+            assert((libc_epoll_create1 = dlsym(RTLD_NEXT, "epoll_create1")) != NULL);
+            assert((libc_epoll_ctl = dlsym(RTLD_NEXT, "epoll_ctl")) != NULL);
+            assert((libc_epoll_wait = dlsym(RTLD_NEXT, "epoll_wait")) != NULL);
+            TRACE("calling demi_init");
+            if (__demi_init() != 0)
+                abort();
+            TRACE("initialized");
+            atomic_store(&initialized, true);
+        }
+        pthread_mutex_unlock(&demimutex);
+        }
 }
 
 int close(int sockfd)
@@ -270,7 +293,8 @@ ssize_t pwrite(int sockfd, const void *buf, size_t count, off_t offset)
 
 int epoll_create1(int flags)
 {
-    assert(flags == 0);
+    (void)(flags);
+    //assert(flags == 0);
     return (epoll_create(EPOLL_MAX_FDS));
 }
 
@@ -288,14 +312,15 @@ int socket(int domain, int type, int protocol)
 {
     int ret = -1;
     static bool reentrant = false;
-
+    TRACE("init called from socket");
     init();
-
-    if ((!initialized) || (reentrant))
+    TRACE("init completed from socket %d", initialized);
+    if ((!initialized) || (reentrant) || domain == AF_UNIX)
         return (libc_socket(domain, type, protocol));
-
+    if(type & SOCK_STREAM) type = SOCK_STREAM;
+    if(type & SOCK_DGRAM) type = SOCK_DGRAM;
     int last_errno = errno;
-
+    if(domain == AF_INET6) domain = AF_INET;
     reentrant = true;
     ret = __demi_socket(domain, type, protocol);
     reentrant = false;
@@ -314,6 +339,7 @@ int epoll_create(int size)
     int ret = -1;
     int linux_epfd = -1;
     int demikernel_epfd = -1;
+    TRACE("init called from epoll_Create");
     init();
 
     // Check if size argument is valid.

@@ -19,12 +19,12 @@ int __demi_init()
 
     queue_man_init();
     epoll_table_init();
-
+    TRACE("demi_init");
     if ((ret = demi_init(argc, argv)) != 0)
     {
         errno = ret;
         return -1;
     }
-
+    TRACE("demi_init completed");
     return 0;
 }
