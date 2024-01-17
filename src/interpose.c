@@ -35,7 +35,7 @@ static pthread_mutex_t demiinterpose = PTHREAD_MUTEX_INITIALIZER;
 
 
 #define INTERPOSE_CALL(type, fn_libc, fn_demi, ...)                                                                    \
-{   TRACE("start");   \
+{   TRACE("start"); assert(fn_libc != NULL);   \
         /* TRACE("interpose locked");*/                                                                                     \
         type ret = -1;    \
         int returnvalue = fn_libc(__VA_ARGS__); \
@@ -196,31 +196,31 @@ static void init(void)
 
 int close(int sockfd)
 {
-    libc_close = dlsym(RTLD_NEXT, "close");
+    init();
     INTERPOSE_CALL(int, libc_close, __demi_close, sockfd);
 }
 
 int shutdown(int sockfd, int how)
 {
-    libc_shutdown = dlsym(RTLD_NEXT, "shutdown");
+    init();
     INTERPOSE_CALL(int, libc_shutdown, __demi_shutdown, sockfd, how);
 }
 
 int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
 {
-    libc_bind = dlsym(RTLD_NEXT, "bind");
+    init();
     INTERPOSE_CALL(int, libc_bind, __demi_bind, sockfd, addr, addrlen);
 }
 
-int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
-{
-    libc_connect = dlsym(RTLD_NEXT, "connect");
-    INTERPOSE_CALL(int, libc_connect, __demi_connect, sockfd, addr, addrlen);
-}
+// int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
+// {
+//     init();
+//     INTERPOSE_CALL(int, libc_connect, __demi_connect, sockfd, addr, addrlen);
+// }
 
 int listen(int sockfd, int backlog)
 {
-    libc_listen = dlsym(RTLD_NEXT, "listen");
+    init();
     INTERPOSE_CALL(int, libc_listen, __demi_listen, sockfd, backlog);
 }
 
@@ -235,7 +235,7 @@ int listen(int sockfd, int backlog)
 __thread bool accept_reentrant = false;
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 {
-    libc_accept = dlsym(RTLD_NEXT, "accept");
+    init();
     return libc_accept(sockfd, addr, addrlen);
 //    pthread_mutex_lock(&demimutexaccept);
     //TRACE("reentrant %d sockfd=%d", reentrant, sockfd);
@@ -325,7 +325,7 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 
 ssize_t read(int sockfd, void *buf, size_t count)
 {
-    libc_read = dlsym(RTLD_NEXT, "read");
+    init();
     TRACE("sockfd=%d", sockfd);
     INTERPOSE_CALL(ssize_t, libc_read, __demi_read, sockfd, buf, count);
 }
@@ -356,7 +356,7 @@ ssize_t read(int sockfd, void *buf, size_t count)
 
 ssize_t write(int sockfd, const void *buf, size_t count)
 {
-    libc_write = dlsym(RTLD_NEXT, "write");
+    init();
     INTERPOSE_CALL(ssize_t, libc_write, __demi_write, sockfd, buf, count);
 }
 
