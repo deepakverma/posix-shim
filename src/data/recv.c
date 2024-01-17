@@ -81,8 +81,8 @@ ssize_t __demi_read(int sockfd, void *buf, size_t count)
     }
 
     // TODO: Hook in demi_read().
-    UNIMPLEMETED("read() currently works only on epoll mode");
-
+    TRACE("read() currently works only on epoll mode %d", sockfd);
+    abort();
     return (-1);
 }
 

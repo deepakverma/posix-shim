@@ -20,19 +20,25 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <stdatomic.h>
+#include <demi/wait.h>
+#include "utils.h"
 
+
+static int cached_linux_epfd = -1;
 
 static pthread_mutex_t demimutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t demimutex2 = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t demimutexsocketCreate = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t demimutexaccept = PTHREAD_MUTEX_INITIALIZER;
 #define INTERPOSE_CALL(type, fn_libc, fn_demi, ...)                                                                    \
-    { /* TRACE("interpose locking");*/   \
+{  /*TRACE("interpose locking");*/   \
         pthread_mutex_lock(&demimutex2);\
        /* TRACE("interpose locked");*/                                                                                     \
         type ret = -1;                                                                                                 \
         static bool reentrant = false;                                                                                 \
         if ((!initialized) || (reentrant)) {                                                                            \
             pthread_mutex_unlock(&demimutex2);\
-            TRACE("interpose unlocked not-init %d", initialized);\
+            TRACE("interpose unlocked init=%d rentrant=%d", initialized, reentrant);\
             return (fn_libc(__VA_ARGS__));                                                                             \
         }                                                                                                              \
         init();                                                                                                        \
@@ -47,8 +53,10 @@ static pthread_mutex_t demimutex2 = PTHREAD_MUTEX_INITIALIZER;
         {                                                                                                              \
             errno = last_errno;                                                                                        \
             pthread_mutex_unlock(&demimutex2);\
-           /* TRACE("interpose unlocked err %d", ret);*/\
-            return fn_libc(__VA_ARGS__);                                                                               \
+            TRACE("interpose unlocked err=%d fallback to libc", errno);\
+            ret = fn_libc(__VA_ARGS__);\
+            TRACE("libc call returned %d error=%d", ret, errno);\
+            return ret;                                                                               \
         }                                                                                                              \
                                                                                                                        \
         pthread_mutex_unlock(&demimutex2);\
@@ -138,6 +146,8 @@ static void init(void)
             pthread_mutexattr_init(&attr);
             pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
             pthread_mutex_init(&demimutex2, &attr);            
+            pthread_mutex_init(&demimutexsocketCreate, &attr);     
+            pthread_mutex_init(&demimutexaccept, &attr);     
             assert((libc_socket = dlsym(RTLD_NEXT, "socket")) != NULL);
             assert((libc_shutdown = dlsym(RTLD_NEXT, "shutdown")) != NULL);
             assert((libc_bind = dlsym(RTLD_NEXT, "bind")) != NULL);
@@ -203,12 +213,74 @@ int listen(int sockfd, int backlog)
 
 int accept4(int sockfd, struct sockaddr *addr, socklen_t *addrlen, int flags)
 {
-    INTERPOSE_CALL(int, libc_accept4, __demi_accept4, sockfd, addr, addrlen, flags);
+    UNUSED(flags);
+    return accept(sockfd, addr, addrlen);
+    //INTERPOSE_CALL(int, libc_accept4, __demi_accept4, sockfd, addr, addrlen, flags);
 }
 
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 {
-    INTERPOSE_CALL(int, libc_accept, __demi_accept, sockfd, addr, addrlen);
+    pthread_mutex_lock(&demimutexaccept);
+    static bool reentrant = false;
+    //TRACE("reentrant %d sockfd=%d", reentrant, sockfd);
+
+     // Check if this socket descriptor is managed by Demikernel.
+    // If that is not the case, then fail to let the Linux kernel handle it.
+    if (reentrant || !queue_man_query_fd(sockfd))
+    {
+            pthread_mutex_unlock(&demimutexaccept);
+            //TRACE("returning libc accept reentrant = %d", reentrant);
+            //if(!reentrant) abort();
+            return libc_accept(sockfd, addr, addrlen);
+    }
+
+    TRACE("sockfd=%d, addr=%p, addrlen=%p", sockfd, (void *)addr, (void *)addrlen);
+
+    // Check if socket descriptor is registered on an epoll instance.
+    if (queue_man_query_fd_pollable(sockfd))
+    {
+        struct demi_event *ev = NULL;
+
+        // Check if the accept operation has completed.
+        if ((ev = queue_man_get_accept_result(sockfd)) != NULL)
+        {
+            int newqd = -1;
+
+            assert(ev->used == 1);
+            assert(ev->qt == (demi_qtoken_t)-1);
+            assert(ev->sockqd == sockfd);
+
+            // Extract the I/O queue descriptor that refers to the new connection,
+            // and registers it as one managed by Demikernel.
+            newqd = ev->qr.qr_value.ares.qd;
+            newqd = queue_man_register_fd(newqd);
+
+            // Re-issue accept operation.
+            __epoll_reent_guard = 1;
+            assert(demi_accept(&ev->qt, ev->sockqd) == 0);
+            __epoll_reent_guard = 0;
+            pthread_mutex_unlock(&demimutexaccept);
+            return (newqd);
+        }
+        // The accept operation has not yet completed.
+        errno = EWOULDBLOCK;
+        pthread_mutex_unlock(&demimutexaccept);
+        return (-1);
+    }
+    // accept client connection on the listening socket that's not registered with epoll
+    TRACE("managed by demikernel but not epoll");
+    demi_qtoken_t qt;
+    demi_qresult_t qr = {0};
+    reentrant = true;
+    assert(demi_accept(&qt, sockfd) == 0);
+    TRACE("demi wait");
+    demi_wait(&qr, qt, NULL);
+    reentrant = false;
+    pthread_mutex_unlock(&demimutexaccept);
+    int newqd = qr.qr_value.ares.qd;
+    newqd = queue_man_register_fd(newqd);
+    TRACE("accept returning qd=%d , hash qd = %d", qr.qr_value.ares.qd, newqd);
+    return newqd;
 }
 
 int getsockopt(int sockfd, int level, int optname, void *optval, socklen_t *optlen)
@@ -310,32 +382,47 @@ int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 
 int socket(int domain, int type, int protocol)
 {
+    pthread_mutex_lock(&demimutexsocketCreate);
+    TRACE("domain = %d, type=%d", domain, type);
     int ret = -1;
     static bool reentrant = false;
     TRACE("init called from socket");
     init();
     TRACE("init completed from socket %d", initialized);
-    if ((!initialized) || (reentrant) || domain == AF_UNIX)
+    if ((!initialized) || (reentrant) || domain == AF_UNIX || domain == AF_INET)
+    {
+        TRACE("init=%d,reentrant=%d,domain=%d", initialized, reentrant, domain);
+        pthread_mutex_unlock(&demimutexsocketCreate);
         return (libc_socket(domain, type, protocol));
+    }
     if(type & SOCK_STREAM) type = SOCK_STREAM;
     if(type & SOCK_DGRAM) type = SOCK_DGRAM;
     int last_errno = errno;
-    if(domain == AF_INET6) domain = AF_INET;
     reentrant = true;
     ret = __demi_socket(domain, type, protocol);
     reentrant = false;
-
+    TRACE("demikernel socket fd=%d", ret);
     if ((ret) == -1 && (errno == EBADF))
     {
         errno = last_errno;
+        pthread_mutex_unlock(&demimutexsocketCreate);
         return (libc_socket(domain, type, protocol));
     }
-
+    pthread_mutex_unlock(&demimutexsocketCreate);
     return ret;
 }
 
+
 int epoll_create(int size)
 {
+    pthread_mutex_lock(&demimutex2);
+    // if(cached_linux_epfd != -1)
+    // {
+    //  //   pthread_mutex_unlock(&demimutex3);
+    //     TRACE("returning cached %d", cached_linux_epfd);
+    //     return cached_linux_epfd;
+    // }
+
     int ret = -1;
     int linux_epfd = -1;
     int demikernel_epfd = -1;
@@ -346,6 +433,7 @@ int epoll_create(int size)
     if (size < 0)
     {
         errno = EINVAL;
+        pthread_mutex_unlock(&demimutex2);
         return -1;
     }
 
@@ -353,6 +441,7 @@ int epoll_create(int size)
     if ((ret = libc_epoll_create(size)) == -1)
     {
         ERROR("epoll_create() failed - %s", strerror(errno));
+        pthread_mutex_unlock(&demimutex2);
         return (ret);
     }
 
@@ -362,12 +451,15 @@ int epoll_create(int size)
     if ((ret = __demi_epoll_create(size)) == -1 && errno == EBADF)
     {
         errno = last_errno;
+        pthread_mutex_unlock(&demimutex2);
         return linux_epfd;
     }
 
     demikernel_epfd = ret;
 
     queue_man_register_linux_epfd(linux_epfd, demikernel_epfd);
-
+    cached_linux_epfd = linux_epfd;
+    TRACE("linuxepfd=%d demikernelepfd=%d", cached_linux_epfd, demikernel_epfd);
+    pthread_mutex_unlock(&demimutex2);
     return linux_epfd;
 }

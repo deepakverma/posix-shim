@@ -13,6 +13,7 @@ int __demi_epoll_create(int size)
     // Check for reentrancy.
     if (__epoll_reent_guard)
     {
+        TRACE("epoll_create reentrancy");
         errno = EBADF;
         return -1;
     }

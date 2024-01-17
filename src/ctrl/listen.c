@@ -28,7 +28,7 @@ int __demi_listen(int sockfd, int backlog)
         return -1;
     }
 
-    TRACE("sockfd=%d, backlog=%d", sockfd, backlog);
+    TRACE("Listen sockfd=%d, backlog=%d", sockfd, backlog);
 
     // Invoke underlying Demikernel system call.
     if ((ret = demi_listen(sockfd, backlog)) != 0)

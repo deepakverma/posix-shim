@@ -20,22 +20,22 @@
  */
 int __demi_getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 {
-    int ret = -1;
-
     // Check if this socket descriptor is managed by Demikernel.
     // If that is not the case, then fail to let the Linux kernel handle it.
     if (!queue_man_query_fd(sockfd))
     {
+        TRACE("socket not managed by denikernel fd=%d", sockfd);
         errno = EBADF;
         return -1;
     }
 
-    TRACE("sockfd=%d, addr=%p, addrlen=%p", sockfd, (void *)addr, (void *)addrlen);
+    TRACE("get peer name sockfd=%d, addr=%p, addrlen=%p", sockfd, (void *)addr, (void *)addrlen);
 
     // TODO: Hook in demi_getpeername().
-    UNUSED(addr);
-    UNUSED(addrlen);
-    ret = ENOSYS;
+    return __demi_getpeername(sockfd, addr, addrlen);
+    // UNUSED(addr);
+    // UNUSED(addrlen);
+    // ret = ENOSYS;
 
-    return (ret);
+    // return (ret);
 }

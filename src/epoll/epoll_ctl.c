@@ -158,6 +158,7 @@ int __demi_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
     // Check for reentrancy.
     if (__epoll_reent_guard)
     {
+        TRACE("epfd=%d, op=%d, fd=%d, event=%p", epfd, op, fd, (void *)event);
         errno = EBADF;
         return -1;
     }
@@ -168,12 +169,14 @@ int __demi_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
     // If that is not the case, then fail to let the Linux kernel handle it.
     if (!queue_man_query_fd(fd))
     {
+        TRACE("fd not managed by demikernel");
         errno = EBADF;
         return -1;
     }
 
     if ((epfd = queue_man_get_demikernel_epfd(epfd)) == -1)
     {
+        TRACE("epfd not found");
         errno = EBADF;
         return -1;
     }

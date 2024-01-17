@@ -1,0 +1,1238 @@
+4026434 execve("/opt/redislabs/bin/dmcproxy", ["/opt/redislabs/bin/dmcproxy", "-O", "/var/opt/redislabs/log/dmcproxy."..., "--install_path=/opt/redislabs", "--config_path=/etc/opt/redislabs", "--ephemeral_config_path=/etc/opt"..., "-s", "/etc/opt/redislabs", "-p", "/var/opt/redislabs/run", "-u", "redislabs"], 0x7ffca292c2e0 /* 64 vars */) = 0
+4026434 brk(NULL)                       = 0x561d08b52000
+4026434 arch_prctl(0x3001 /* ARCH_??? */, 0x7ffce7e07070) = -1 EINVAL (Invalid argument)
+4026434 readlink("/proc/self/exe", "/opt/redislabs/bin/dmcproxy", 4096) = 27
+4026434 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb868ef000
+4026434 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/tls/x86_64/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/lib/tls/x86_64/x86_64", 0x7ffce7e062c0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/tls/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/lib/tls/x86_64", 0x7ffce7e062c0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/tls/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/lib/tls/x86_64", 0x7ffce7e062c0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/tls/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/lib/tls", 0x7ffce7e062c0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/x86_64/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/lib/x86_64/x86_64", 0x7ffce7e062c0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/lib/x86_64", 0x7ffce7e062c0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/x86_64/libsharding.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/lib/x86_64", 0x7ffce7e062c0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libsharding.so.0", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 %\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=342784, ...}) = 0
+4026434 mmap(NULL, 344968, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb8689a000
+4026434 mprotect(0x7ffb8689c000, 331776, PROT_NONE) = 0
+4026434 mmap(0x7ffb8689c000, 217088, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7ffb8689c000
+4026434 mmap(0x7ffb868d1000, 110592, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x37000) = 0x7ffb868d1000
+4026434 mmap(0x7ffb868ed000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x52000) = 0x7ffb868ed000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/tls/x86_64/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib/tls/x86_64/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/tls/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib/tls/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/tls/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib/tls/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/tls/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib/tls", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/x86_64/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib/x86_64/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/opt/redislabs/bin/../lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/tls/x86_64/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib/tls/x86_64/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/tls/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib/tls/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/tls/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib/tls/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/tls/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib/tls", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/x86_64/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib/x86_64/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/x86_64/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib/x86_64", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/garantia.cluster/build/opt/redislabs/lib/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 stat("/garantia.cluster/build/opt/redislabs/lib", 0x7ffce7e062a0) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=64542, ...}) = 0
+4026434 mmap(NULL, 64542, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ffb8688a000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libsasl2.so.2", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\2008\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=113552, ...}) = 0
+4026434 mmap(NULL, 115688, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb8686d000
+4026434 mmap(0x7ffb86870000, 73728, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7ffb86870000
+4026434 mmap(0x7ffb86882000, 24576, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x15000) = 0x7ffb86882000
+4026434 mmap(0x7ffb86888000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1a000) = 0x7ffb86888000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/librt.so.1", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 '\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=35960, ...}) = 0
+4026434 mmap(NULL, 39904, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb86863000
+4026434 mmap(0x7ffb86865000, 16384, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7ffb86865000
+4026434 mmap(0x7ffb86869000, 8192, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6000) = 0x7ffb86869000
+4026434 mmap(0x7ffb8686b000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x7000) = 0x7ffb8686b000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 \341\t\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=1956992, ...}) = 0
+4026434 mmap(NULL, 1972224, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb86681000
+4026434 mprotect(0x7ffb86717000, 1290240, PROT_NONE) = 0
+4026434 mmap(0x7ffb86717000, 987136, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x96000) = 0x7ffb86717000
+4026434 mmap(0x7ffb86808000, 299008, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x187000) = 0x7ffb86808000
+4026434 mmap(0x7ffb86852000, 57344, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1d0000) = 0x7ffb86852000
+4026434 mmap(0x7ffb86860000, 10240, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffb86860000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libjemalloc.so.2", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\340\230\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=765656, ...}) = 0
+4026434 mmap(NULL, 2907376, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb863bb000
+4026434 mprotect(0x7ffb863c4000, 704512, PROT_NONE) = 0
+4026434 mmap(0x7ffb863c4000, 614400, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x9000) = 0x7ffb863c4000
+4026434 mmap(0x7ffb8645a000, 86016, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x9f000) = 0x7ffb8645a000
+4026434 mmap(0x7ffb86470000, 28672, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xb4000) = 0x7ffb86470000
+4026434 mmap(0x7ffb86477000, 2137328, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffb86477000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libz.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\300%\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=101048, ...}) = 0
+4026434 mmap(NULL, 102920, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb863a1000
+4026434 mmap(0x7ffb863a3000, 65536, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7ffb863a3000
+4026434 mmap(0x7ffb863b3000, 24576, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x12000) = 0x7ffb863b3000
+4026434 mmap(0x7ffb863b9000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x17000) = 0x7ffb863b9000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libssl.so.1.1", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0p\367\1\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=598104, ...}) = 0
+4026434 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb8639f000
+4026434 mmap(NULL, 600368, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb8630c000
+4026434 mprotect(0x7ffb86328000, 434176, PROT_NONE) = 0
+4026434 mmap(0x7ffb86328000, 323584, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1c000) = 0x7ffb86328000
+4026434 mmap(0x7ffb86377000, 106496, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6b000) = 0x7ffb86377000
+4026434 mmap(0x7ffb86392000, 53248, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x85000) = 0x7ffb86392000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libcrypto.so.1.1", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\220\7\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=2954080, ...}) = 0
+4026434 mmap(NULL, 2973600, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb86036000
+4026434 mmap(0x7ffb860ae000, 1683456, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x78000) = 0x7ffb860ae000
+4026434 mmap(0x7ffb86249000, 593920, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x213000) = 0x7ffb86249000
+4026434 mmap(0x7ffb862da000, 188416, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2a3000) = 0x7ffb862da000
+4026434 mmap(0x7ffb86308000, 16288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffb86308000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\220q\0\0\0\0\0\0"..., 832) = 832
+4026434 pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\f\4K\246\21\256\356\256\273\203t\346`\6\0374"..., 68, 824) = 68
+4026434 fstat(3, {st_mode=S_IFREG|0755, st_size=157224, ...}) = 0
+4026434 pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\f\4K\246\21\256\356\256\273\203t\346`\6\0374"..., 68, 824) = 68
+4026434 mmap(NULL, 140408, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb86013000
+4026434 mmap(0x7ffb86019000, 69632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6000) = 0x7ffb86019000
+4026434 mmap(0x7ffb8602a000, 24576, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x17000) = 0x7ffb8602a000
+4026434 mmap(0x7ffb86030000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1c000) = 0x7ffb86030000
+4026434 mmap(0x7ffb86032000, 13432, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffb86032000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libm.so.6", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\300\323\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=1369384, ...}) = 0
+4026434 mmap(NULL, 1368336, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb85ec4000
+4026434 mmap(0x7ffb85ed1000, 684032, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xd000) = 0x7ffb85ed1000
+4026434 mmap(0x7ffb85f78000, 626688, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xb4000) = 0x7ffb85f78000
+4026434 mmap(0x7ffb86011000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x14c000) = 0x7ffb86011000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\3405\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=104984, ...}) = 0
+4026434 mmap(NULL, 107592, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb85ea9000
+4026434 mmap(0x7ffb85eac000, 73728, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7ffb85eac000
+4026434 mmap(0x7ffb85ebe000, 16384, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x15000) = 0x7ffb85ebe000
+4026434 mmap(0x7ffb85ec2000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x18000) = 0x7ffb85ec2000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/x86_64/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/x86_64/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/tls/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/x86_64/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/x86_64/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/opt/redislabs/bin/../lib/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\300A\2\0\0\0\0\0"..., 832) = 832
+4026434 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+4026434 pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
+4026434 pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\356\276]_K`\213\212S\354Dkc\230\33\272"..., 68, 880) = 68
+4026434 fstat(3, {st_mode=S_IFREG|0755, st_size=2029592, ...}) = 0
+4026434 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+4026434 pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
+4026434 pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\356\276]_K`\213\212S\354Dkc\230\33\272"..., 68, 880) = 68
+4026434 mmap(NULL, 2037344, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb85cb7000
+4026434 mmap(0x7ffb85cd9000, 1540096, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x22000) = 0x7ffb85cd9000
+4026434 mmap(0x7ffb85e51000, 319488, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19a000) = 0x7ffb85e51000
+4026434 mmap(0x7ffb85e9f000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e7000) = 0x7ffb85e9f000
+4026434 mmap(0x7ffb85ea5000, 13920, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffb85ea5000
+4026434 close(3)                        = 0
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libdl.so.2", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 \22\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=18848, ...}) = 0
+4026434 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb85cb5000
+4026434 mmap(NULL, 20752, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffb85caf000
+4026434 mmap(0x7ffb85cb0000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1000) = 0x7ffb85cb0000
+4026434 mmap(0x7ffb85cb2000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7ffb85cb2000
+4026434 mmap(0x7ffb85cb3000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7ffb85cb3000
+4026434 close(3)                        = 0
+4026434 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb85cad000
+4026434 mmap(NULL, 16384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb85ca9000
+4026434 arch_prctl(ARCH_SET_FS, 0x7ffb85caaec0) = 0
+4026434 mprotect(0x7ffb85e9f000, 16384, PROT_READ) = 0
+4026434 mprotect(0x7ffb85cb3000, 4096, PROT_READ) = 0
+4026434 mprotect(0x7ffb85ec2000, 4096, PROT_READ) = 0
+4026434 mprotect(0x7ffb86011000, 4096, PROT_READ) = 0
+4026434 mprotect(0x7ffb86030000, 4096, PROT_READ) = 0
+4026434 mprotect(0x7ffb862da000, 180224, PROT_READ) = 0
+4026434 mprotect(0x7ffb86392000, 36864, PROT_READ) = 0
+4026434 mprotect(0x7ffb863b9000, 4096, PROT_READ) = 0
+4026434 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb85ca7000
+4026434 mprotect(0x7ffb86852000, 45056, PROT_READ) = 0
+4026434 mprotect(0x7ffb86470000, 24576, PROT_READ) = 0
+4026434 mprotect(0x7ffb8686b000, 4096, PROT_READ) = 0
+4026434 mprotect(0x7ffb86888000, 4096, PROT_READ) = 0
+4026434 mprotect(0x7ffb868ed000, 4096, PROT_READ) = 0
+4026434 mprotect(0x561d06cb3000, 155648, PROT_READ) = 0
+4026434 mprotect(0x7ffb8691e000, 4096, PROT_READ) = 0
+4026434 munmap(0x7ffb8688a000, 64542)   = 0
+4026434 set_tid_address(0x7ffb85cab190) = 4026434
+4026434 set_robust_list(0x7ffb85cab1a0, 24) = 0
+4026434 rt_sigaction(SIGRTMIN, {sa_handler=0x7ffb86019bf0, sa_mask=[], sa_flags=SA_RESTORER|SA_SIGINFO, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigaction(SIGRT_1, {sa_handler=0x7ffb86019c90, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART|SA_SIGINFO, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 8) = 0
+4026434 prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+4026434 readlink("/etc/malloc.conf", 0x7ffce7e05f00, 4096) = -1 ENOENT (No such file or directory)
+4026434 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb8691d000
+4026434 madvise(0x7ffb8691d000, 4096, MADV_DONTNEED) = 0
+4026434 munmap(0x7ffb8691d000, 4096)    = 0
+4026434 open("/proc/sys/vm/overcommit_memory", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "1", 1)                 = 1
+4026434 close(3)                        = 0
+4026434 open("/sys/kernel/mm/transparent_hugepage/enabled", O_RDONLY) = 3
+4026434 read(3, "always madvise [never]\n", 24) = 23
+4026434 close(3)                        = 0
+4026434 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb8691d000
+4026434 madvise(0x7ffb8691d000, 4096, MADV_FREE) = 0
+4026434 munmap(0x7ffb8691d000, 4096)    = 0
+4026434 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb85aa7000
+4026434 munmap(0x7ffb85aa7000, 2097152) = 0
+4026434 mmap(NULL, 4190208, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb858a8000
+4026434 munmap(0x7ffb858a8000, 1409024) = 0
+4026434 munmap(0x7ffb85c00000, 684032)  = 0
+4026434 brk(NULL)                       = 0x561d08b52000
+4026434 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb85800000
+4026434 mmap(NULL, 4194304, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb85400000
+4026434 sched_getaffinity(0, 128, [0, 1, 2, 3]) = 8
+4026434 futex(0x7ffb868606bc, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb868606c8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 openat(AT_FDCWD, "/sys/devices/system/cpu/online", O_RDONLY|O_CLOEXEC) = 3
+4026434 read(3, "0-3\n", 8192)          = 4
+4026434 close(3)                        = 0
+4026434 getpid()                        = 4026434
+4026434 fstat(1, {st_mode=S_IFCHR|0600, st_rdev=makedev(0x88, 0x2), ...}) = 0
+4026434 write(1, "==================dmcproxy 40264"..., 62) = 62
+4026434 getpid()                        = 4026434
+4026434 write(2, "==================dmcproxy 40264"..., 62) = 62
+4026434 futex(0x7ffb8630a818, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a80c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a804, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a8d8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a7f0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a7e8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb86307c5c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a6c4, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a65c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a650, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a7fc, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a7b8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8630a7b0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 openat(AT_FDCWD, "/usr/lib/ssl/openssl.cnf", O_RDONLY) = 3
+4026434 fstat(3, {st_mode=S_IFREG|0644, st_size=10909, ...}) = 0
+4026434 read(3, "#\n# OpenSSL example configuratio"..., 4096) = 4096
+4026434 read(3, "# WARNING: ancient versions of N"..., 4096) = 4096
+4026434 read(3, "es of the usage of nsCertType. I"..., 4096) = 2717
+4026434 read(3, "", 4096)               = 0
+4026434 close(3)                        = 0
+4026434 futex(0x7ffb8630a7e0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8639e840, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 sysinfo({uptime=438366, loads=[479552, 477056, 464320], totalram=16715112448, freeram=1442992128, sharedram=4304896, bufferram=401784832, totalswap=0, freeswap=0, procs=728, totalhigh=0, freehigh=0, mem_unit=1}) = 0
+4026434 futex(0x7ffb8639e928, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 futex(0x7ffb8639e91c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 uname({sysname="Linux", nodename="dvr1", ...}) = 0
+4026434 gettid()                        = 4026434
+4026434 prctl(PR_SET_NAME, "dmcproxy")  = 0
+4026434 getuid()                        = 0
+4026434 geteuid()                       = 0
+4026434 getgid()                        = 0
+4026434 getegid()                       = 0
+4026434 getuid()                        = 0
+4026434 geteuid()                       = 0
+4026434 getgid()                        = 0
+4026434 getegid()                       = 0
+4026434 epoll_create1(EPOLL_CLOEXEC)    = 3
+4026434 getuid()                        = 0
+4026434 geteuid()                       = 0
+4026434 getgid()                        = 0
+4026434 getegid()                       = 0
+4026434 pipe2([4, 5], O_NONBLOCK|O_CLOEXEC) = 0
+4026434 getuid()                        = 0
+4026434 geteuid()                       = 0
+4026434 getgid()                        = 0
+4026434 getegid()                       = 0
+4026434 eventfd2(0, EFD_CLOEXEC|EFD_NONBLOCK) = 6
+4026434 epoll_ctl(3, EPOLL_CTL_ADD, 6, {EPOLLIN, {u32=6, u64=6}}) = 0
+4026434 pipe2([7, 8], O_NONBLOCK|O_CLOEXEC) = 0
+4026434 epoll_ctl(3, EPOLL_CTL_ADD, 7, {EPOLLIN, {u32=7, u64=7}}) = 0
+4026434 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7ffb84bff000
+4026434 mprotect(0x7ffb84c00000, 8388608, PROT_READ|PROT_WRITE) = 0
+4026434 clone(child_stack=0x7ffb853fd830, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[4026437], tls=0x7ffb853ff700, child_tidptr=0x7ffb853ff9d0) = 4026437
+4026434 futex(0x7ffce7e05570, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+4026437 set_robust_list(0x7ffb853ff9e0, 24) = 0
+4026437 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb849ff000
+4026437 munmap(0x7ffb849ff000, 2097152) = 0
+4026437 mmap(NULL, 4190208, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb84800000
+4026437 munmap(0x7ffb84a00000, 2093056) = 0
+4026437 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb84600000
+4026437 gettid()                        = 4026437
+4026437 prctl(PR_SET_NAME, "logger")    = 0
+4026437 openat(AT_FDCWD, "/etc/localtime", O_RDONLY|O_CLOEXEC) = 9
+4026437 fstat(9, {st_mode=S_IFREG|0644, st_size=118, ...}) = 0
+4026437 fstat(9, {st_mode=S_IFREG|0644, st_size=118, ...}) = 0
+4026437 read(9, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\1\0\0\0\1\0\0\0\0"..., 4096) = 118
+4026437 lseek(9, -62, SEEK_CUR)         = 56
+4026437 read(9, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\1\0\0\0\1\0\0\0\0"..., 4096) = 62
+4026437 close(9)                        = 0
+4026437 write(2, "1) 2024-01-16 23:59:53.012000 [2"..., 77) = 77
+4026437 getuid()                        = 0
+4026437 geteuid()                       = 0
+4026437 getgid()                        = 0
+4026437 getegid()                       = 0
+4026437 getuid()                        = 0
+4026437 geteuid()                       = 0
+4026437 getgid()                        = 0
+4026437 getegid()                       = 0
+4026437 epoll_create1(EPOLL_CLOEXEC)    = 9
+4026437 getuid()                        = 0
+4026437 geteuid()                       = 0
+4026437 getgid()                        = 0
+4026437 getegid()                       = 0
+4026437 pipe2([10, 11], O_NONBLOCK|O_CLOEXEC) = 0
+4026437 getuid()                        = 0
+4026437 geteuid()                       = 0
+4026437 getgid()                        = 0
+4026437 getegid()                       = 0
+4026437 eventfd2(0, EFD_CLOEXEC|EFD_NONBLOCK) = 12
+4026437 epoll_ctl(9, EPOLL_CTL_ADD, 12, {EPOLLIN, {u32=12, u64=12}}) = 0
+4026437 pipe2([13, 14], O_NONBLOCK|O_CLOEXEC) = 0
+4026437 epoll_ctl(9, EPOLL_CTL_ADD, 13, {EPOLLIN, {u32=13, u64=13}}) = 0
+4026437 pipe2([15, 16], O_NONBLOCK|O_CLOEXEC) = 0
+4026437 epoll_ctl(9, EPOLL_CTL_ADD, 15, {EPOLLIN, {u32=15, u64=15}}) = 0
+4026437 pipe2([17, 18], O_NONBLOCK|O_CLOEXEC) = 0
+4026437 epoll_ctl(9, EPOLL_CTL_ADD, 17, {EPOLLIN, {u32=17, u64=17}}) = 0
+4026437 futex(0x7ffce7e05570, FUTEX_WAKE_PRIVATE, 1) = 1
+4026434 <... futex resumed>)            = 0
+4026434 futex(0x7ffce7e05520, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+4026437 openat(AT_FDCWD, "/var/opt/redislabs/log/dmcproxy.log", O_WRONLY|O_CREAT|O_APPEND|O_CLOEXEC, 0644 <unfinished ...>
+4026434 <... futex resumed>)            = 0
+4026437 <... openat resumed>)           = 19
+4026434 pipe2( <unfinished ...>
+4026437 fcntl(19, F_GETFL)              = 0x8401 (flags O_WRONLY|O_APPEND|O_LARGEFILE)
+4026434 <... pipe2 resumed>[20, 21], O_NONBLOCK|O_CLOEXEC) = 0
+4026434 epoll_ctl(3, EPOLL_CTL_ADD, 20, {EPOLLIN, {u32=20, u64=20}} <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... epoll_ctl resumed>)        = 0
+4026434 rt_sigaction(SIGALRM, {sa_handler=0x561d0671aee0, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 24) = 1
+4026434 getpid( <unfinished ...>
+4026437 fstat(19,  <unfinished ...>
+4026434 <... getpid resumed>)           = 4026434
+4026437 <... fstat resumed>{st_mode=S_IFREG|0640, st_size=235099, ...}) = 0
+4026434 getcwd( <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026434 <... getcwd resumed>"/home/azureuser/demikernel/posix-shim", 256) = 38
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 write(16, "\0", 1 <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... write resumed>)            = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 20) = 1
+4026434 rt_sigaction(SIGSEGV, {sa_handler=0x561d0670b940, sa_mask=[], sa_flags=SA_RESTORER|SA_NODEFER|SA_RESETHAND|SA_SIGINFO, sa_restorer=0x7ffb86027420},  <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026434 <... rt_sigaction resumed>NULL, 8) = 0
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 rt_sigaction(SIGBUS, {sa_handler=0x561d0670b940, sa_mask=[], sa_flags=SA_RESTORER|SA_NODEFER|SA_RESETHAND|SA_SIGINFO, sa_restorer=0x7ffb86027420},  <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... rt_sigaction resumed>NULL, 8) = 0
+4026434 rt_sigaction(SIGFPE, {sa_handler=0x561d0670b940, sa_mask=[], sa_flags=SA_RESTORER|SA_NODEFER|SA_RESETHAND|SA_SIGINFO, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigaction(SIGILL, {sa_handler=0x561d0670b940, sa_mask=[], sa_flags=SA_RESTORER|SA_NODEFER|SA_RESETHAND|SA_SIGINFO, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigaction(SIGABRT, {sa_handler=0x561d0670b940, sa_mask=[], sa_flags=SA_RESTORER|SA_NODEFER|SA_RESETHAND|SA_SIGINFO, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigaction(SIGHUP, {sa_handler=0x561d064d9c90, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigaction(SIGTERM, {sa_handler=0x561d064d9c90, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigaction(SIGUSR2, {sa_handler=0x561d064d9c90, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 rt_sigaction(SIGPIPE, {sa_handler=SIG_IGN, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7ffb86027420}, NULL, 8) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 20) = 1
+4026434 openat(AT_FDCWD, "/etc/opt/redislabs/node.id", O_RDONLY <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026434 <... openat resumed>)           = 22
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 fstat(22,  <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... fstat resumed>{st_mode=S_IFREG|0644, st_size=2, ...}) = 0
+4026434 read(22, "1\n", 4096)           = 2
+4026434 close(22)                       = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 20) = 1
+4026434 openat(AT_FDCWD, "/etc/opt/redislabs/ccs-auth.conf", O_RDONLY <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026434 <... openat resumed>)           = 22
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 fstat(22,  <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... fstat resumed>{st_mode=S_IFREG|0640, st_size=153, ...}) = 0
+4026434 read(22, "requirepass J3j1cSp1olXt6FSjP62M"..., 4096) = 153
+4026434 close(22)                       = 0
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026434 socket(AF_UNIX, SOCK_STREAM, 0) = 22
+4026434 fcntl(22, F_GETFL)              = 0x2 (flags O_RDWR)
+4026434 fcntl(22, F_SETFL, O_RDWR|O_NONBLOCK) = 0
+4026434 connect(22, {sa_family=AF_UNIX, sun_path="/var/opt/redislabs/run/ccs.sock"}, 110) = 0
+4026434 fcntl(22, F_GETFL)              = 0x802 (flags O_RDWR|O_NONBLOCK)
+4026434 fcntl(22, F_SETFL, O_RDWR)      = 0
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 setsockopt(22, SOL_SOCKET, SO_RCVTIMEO_OLD, "\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) = 0
+4026434 setsockopt(22, SOL_SOCKET, SO_SNDTIMEO_OLD, "\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) = 0
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026434 sendto(22, "*2\r\n$4\r\nAUTH\r\n$64\r\nJ3j1cSp1olXt6"..., 85, 0, NULL, 0) = 85
+4026434 recvfrom(22, "+OK\r\n", 16384, 0, NULL, NULL) = 5
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026434 sendto(22, "*3\r\n$6\r\nCLIENT\r\n$7\r\nSETNAME\r\n$13"..., 49, 0, NULL, 0) = 49
+4026434 recvfrom(22, "+OK\r\n", 16384, 0, NULL, NULL) = 5
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026434 sendto(22, "*2\r\n$7\r\nHGETALL\r\n$6\r\nnode:1\r\n", 29, 0, NULL, 0) = 29
+4026434 recvfrom(22, "*100\r\n$12\r\ntotal_memory\r\n$11\r\n16"..., 16384, 0, NULL, NULL) = 2176
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 20) = 1
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM],  <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026434 <... rt_sigprocmask resumed>NULL, 8) = 0
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 sendto(22, "*2\r\n$7\r\nHGETALL\r\n$5\r\ndmc:1\r\n", 28, 0, NULL, 0 <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... sendto resumed>)           = 28
+4026434 recvfrom(22, "*38\r\n$7\r\nthreads\r\n$1\r\n1\r\n$11\r\nma"..., 16384, 0, NULL, NULL) = 638
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026434 sendto(22, "*2\r\n$7\r\nHGETALL\r\n$12\r\ncluster_ce"..., 36, 0, NULL, 0) = 36
+4026434 recvfrom(22,  <unfinished ...>
+4026437 <... epoll_wait resumed>[], 32, 12) = 0
+4026437 write(19, "1) 2024-01-16 23:59:53.032 [4026"..., 2107) = 2107
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... recvfrom resumed>"*24\r\n$11\r\nsyncer_cert\r\n$1984\r\n--"..., 16384, 0, NULL, NULL) = 16384
+4026434 recvfrom(22, "v4bg8EpXiQ5N4O6Qkhfv4XrZLhmYAU+x"..., 16384, 0, NULL, NULL) = 15311
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026434 sendto(22, "*2\r\n$7\r\nHGETALL\r\n$11\r\nocsp_statu"..., 35, 0, NULL, 0) = 35
+4026434 recvfrom(22, "*0\r\n", 16384, 0, NULL, NULL) = 4
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 1000) = 1
+4026437 read(15,  <unfinished ...>
+4026434 write(16, "\0", 1 <unfinished ...>
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 <... write resumed>)            = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM],  <unfinished ...>
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 984) = 1
+4026434 <... rt_sigprocmask resumed>NULL, 8) = 0
+4026437 read(15,  <unfinished ...>
+4026434 sendto(22, "*2\r\n$3\r\nGET\r\n$14\r\ndefault_suffix"..., 34, 0, NULL, 0 <unfinished ...>
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 <... sendto resumed>)           = 34
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 recvfrom(22, "$22\r\nredislabscluster.local\r\n", 16384, 0, NULL, NULL) = 29
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026434 sendto(22, "*2\r\n$7\r\nHGETALL\r\n$7\r\ncluster\r\n", 30, 0, NULL, 0) = 30
+4026434 recvfrom(22, "*120\r\n$21\r\nblock_cluster_changes"..., 16384, 0, NULL, NULL) = 5538
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 stat("/etc/localtime", {st_mode=S_IFREG|0644, st_size=118, ...}) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 984) = 1
+4026434 rt_sigprocmask(SIG_BLOCK, [ALRM],  <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026434 <... rt_sigprocmask resumed>NULL, 8) = 0
+4026437 <... read resumed>"\0", 1)      = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 sendto(22, "*5\r\n$4\r\nEVAL\r\n$7382\r\n-- eval lua"..., 7441, 0, NULL, 0) = 7441
+4026434 recvfrom(22, "*2\r\n$47\r\nstarting SM fixing for "..., 16384, 0, NULL, NULL) = 91
+4026434 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 972) = 1
+4026437 read(15,  <unfinished ...>
+4026434 write(16, "\0", 1 <unfinished ...>
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 <... write resumed>)            = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 prlimit64(0, RLIMIT_CORE, NULL,  <unfinished ...>
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 972) = 1
+4026437 read(15,  <unfinished ...>
+4026434 <... prlimit64 resumed>{rlim_cur=0, rlim_max=RLIM64_INFINITY}) = 0
+4026434 prlimit64(0, RLIMIT_CORE, {rlim_cur=0, rlim_max=RLIM64_INFINITY},  <unfinished ...>
+4026437 <... read resumed>"\0", 1)      = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... prlimit64 resumed>NULL)    = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 972) = 1
+4026437 read(15,  <unfinished ...>
+4026434 openat(AT_FDCWD, "/opt/redislabs/config/commands.json", O_RDONLY <unfinished ...>
+4026437 <... read resumed>"\0", 1)      = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... openat resumed>)           = 23
+4026434 read(23, "[\n    {\n        \"command_name\": "..., 8191) = 8191
+4026434 read(23, "       \"numkeys_position\": 2,\n  "..., 8191) = 8191
+4026434 read(23, "her\"\n        },\n        \"transac"..., 8191) = 8191
+4026434 read(23, "       \"kind\": \"other\",\n        "..., 8191) = 8191
+4026434 read(23, "    \"sconn_type\": \"shared\",\n    "..., 8191) = 8191
+4026434 read(23, "rst_shard\"\n    },\n    {\n        "..., 8191) = 8191
+4026434 read(23, "2many\"\n    },\n    {\n        \"com"..., 8191) = 8191
+4026434 read(23, "configuration\": {\n            \"c"..., 8191) = 8191
+4026434 read(23, "        \"sconn_type\": \"shared\",\n"..., 8191) = 8191
+4026434 read(23, "ast_key\": -1,\n            \"step\""..., 8191) = 8191
+4026434 read(23, ": 1,\n            \"step\": 1,\n    "..., 8191) = 8191
+4026434 read(23, "_name\": \"rpushx\",\n        \"trans"..., 8191) = 8191
+4026434 read(23, "            \"last_key\": -1,\n    "..., 8191) = 8191
+4026434 read(23, "         \"sconn_type\": \"dedicate"..., 8191) = 8191
+4026434 read(23, "       \"hide_in_commandstats\": t"..., 8191) = 8191
+4026434 read(23, "ercard\",\n        \"transaction_co"..., 8191) = 8119
+4026434 read(23, "", 8191)              = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 972) = 1
+4026434 mmap(NULL, 2621440, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+4026437 read(15, "\0", 1)               = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... mmap resumed>)             = 0x7ffb84380000
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 952) = 1
+4026434 close(23 <unfinished ...>
+4026437 read(15, "\0", 1)               = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... close resumed>)            = 0
+4026434 close(22)                       = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 944) = 1
+4026437 read(15, "\0", 1)               = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 prlimit64(0, RLIMIT_NOFILE, NULL, {rlim_cur=1024, rlim_max=1024*1024}) = 0
+4026434 prlimit64(0, RLIMIT_NOFILE, NULL, {rlim_cur=1024, rlim_max=1024*1024}) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 944) = 1
+4026434 prlimit64(0, RLIMIT_NOFILE, {rlim_cur=500000, rlim_max=1024*1024},  <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026434 <... prlimit64 resumed>NULL)    = 0
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 prlimit64(0, RLIMIT_NOFILE, {rlim_cur=500000, rlim_max=1024*1024},  <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... prlimit64 resumed>NULL)    = 0
+4026434 prlimit64(0, RLIMIT_CORE, NULL, {rlim_cur=0, rlim_max=RLIM64_INFINITY}) = 0
+4026434 prlimit64(0, RLIMIT_CORE, {rlim_cur=0, rlim_max=RLIM64_INFINITY}, NULL) = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 936) = 1
+4026437 read(15,  <unfinished ...>
+4026434 getuid( <unfinished ...>
+4026437 <... read resumed>"\0", 1)      = 1
+4026434 <... getuid resumed>)           = 0
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 22
+4026434 connect(22, {sa_family=AF_UNIX, sun_path="/var/run/nscd/socket"}, 110) = -1 ENOENT (No such file or directory)
+4026434 close(22)                       = 0
+4026434 socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 22
+4026434 connect(22, {sa_family=AF_UNIX, sun_path="/var/run/nscd/socket"}, 110) = -1 ENOENT (No such file or directory)
+4026434 close(22)                       = 0
+4026434 openat(AT_FDCWD, "/etc/nsswitch.conf", O_RDONLY|O_CLOEXEC) = 22
+4026434 fstat(22, {st_mode=S_IFREG|0644, st_size=510, ...}) = 0
+4026434 read(22, "# /etc/nsswitch.conf\n#\n# Example"..., 4096) = 510
+4026434 read(22, "", 4096)              = 0
+4026434 close(22)                       = 0
+4026434 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 22
+4026434 fstat(22, {st_mode=S_IFREG|0644, st_size=64542, ...}) = 0
+4026434 mmap(NULL, 64542, PROT_READ, MAP_PRIVATE, 22, 0) = 0x7ffb8688a000
+4026434 close(22)                       = 0
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libnss_files.so.2", O_RDONLY|O_CLOEXEC) = 22
+4026434 read(22, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\3005\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(22, {st_mode=S_IFREG|0644, st_size=51856, ...}) = 0
+4026434 mmap(NULL, 79672, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 22, 0) = 0x7ffb85c93000
+4026434 mmap(0x7ffb85c96000, 28672, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 22, 0x3000) = 0x7ffb85c96000
+4026434 mmap(0x7ffb85c9d000, 8192, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 22, 0xa000) = 0x7ffb85c9d000
+4026434 mmap(0x7ffb85c9f000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 22, 0xb000) = 0x7ffb85c9f000
+4026434 mmap(0x7ffb85ca1000, 22328, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffb85ca1000
+4026434 close(22)                       = 0
+4026434 mprotect(0x7ffb85c9f000, 4096, PROT_READ) = 0
+4026434 munmap(0x7ffb8688a000, 64542)   = 0
+4026434 openat(AT_FDCWD, "/etc/passwd", O_RDONLY|O_CLOEXEC) = 22
+4026434 lseek(22, 0, SEEK_CUR)          = 0
+4026434 fstat(22, {st_mode=S_IFREG|0644, st_size=2201, ...}) = 0
+4026434 read(22, "root:x:0:0:root:/root:/bin/bash\n"..., 4096) = 2201
+4026434 close(22)                       = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 936) = 1
+4026437 read(15,  <unfinished ...>
+4026434 getpid()                        = 4026434
+4026437 <... read resumed>"\0", 1)      = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 tgkill(4026434, 4026437, SIGRT_1) = 0
+4026437 <... epoll_wait resumed>0x7ffb84622000, 32, 924) = -1 EINTR (Interrupted system call)
+4026434 futex(0x7ffce7e055c0, FUTEX_WAIT_PRIVATE, 1, NULL <unfinished ...>
+4026437 --- SIGRT_1 {si_signo=SIGRT_1, si_code=SI_TKILL, si_pid=4026434, si_uid=0} ---
+4026437 getpid()                        = 4026434
+4026437 setgid(123)                     = 0
+4026437 futex(0x7ffb853ffd1c, FUTEX_WAKE_PRIVATE, 1) = 0
+4026437 futex(0x7ffce7e055c0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+4026434 <... futex resumed>)            = 0
+4026437 <... futex resumed>)            = 1
+4026437 rt_sigreturn({mask=[]} <unfinished ...>
+4026434 setgid(123 <unfinished ...>
+4026437 <... rt_sigreturn resumed>)     = -1 EINTR (Interrupted system call)
+4026434 <... setgid resumed>)           = 0
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 getpid()                        = 4026434
+4026434 tgkill(4026434, 4026437, SIGRT_1) = 0
+4026437 <... epoll_wait resumed>0x7ffb84622000, 32, 924) = -1 EINTR (Interrupted system call)
+4026434 futex(0x7ffce7e055c0, FUTEX_WAIT_PRIVATE, 1, NULL <unfinished ...>
+4026437 --- SIGRT_1 {si_signo=SIGRT_1, si_code=SI_TKILL, si_pid=4026434, si_uid=0} ---
+4026437 getpid()                        = 4026434
+4026437 setuid(115)                     = 0
+4026437 futex(0x7ffb853ffd1c, FUTEX_WAKE_PRIVATE, 1) = 0
+4026437 futex(0x7ffce7e055c0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+4026434 <... futex resumed>)            = 0
+4026437 <... futex resumed>)            = 1
+4026434 setuid(115 <unfinished ...>
+4026437 rt_sigreturn({mask=[]} <unfinished ...>
+4026434 <... setuid resumed>)           = 0
+4026437 <... rt_sigreturn resumed>)     = -1 EINTR (Interrupted system call)
+4026434 prctl(PR_SET_DUMPABLE, SUID_DUMP_USER <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 <... prctl resumed>)            = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 920) = 1
+4026437 read(15,  <unfinished ...>
+4026434 futex(0x7ffb8630a948, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026437 <... read resumed>"\0", 1)      = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 getpid()                        = 4026434
+4026434 getrandom("\xdf\x3f\x48\x55\x68\xac\x93\x32\xb9\xe7\x52\x23\x91\x34\x79\x92\xca\xe2\xa1\x1f\x1f\x7d\x83\x15\x1f\xcf\xb2\x46\xef\xbb\xaa\x91", 32, 0) = 32
+4026434 getpid()                        = 4026434
+4026434 futex(0x7ffb8630a918, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 getrandom("\xfb\x2b\xd9\xd0\xac\x7a\xe6\xb6\xe3\xef\x06\x79\x65\xf4\xd4\x3e\xe1\x6c\x00\x73\xdb\xec\x15\x65\x8f\x98\xa6\x26\x12\xc3\x4f\xca", 32, 0) = 32
+4026434 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb84180000
+4026434 munmap(0x7ffb84180000, 2097152) = 0
+4026434 mmap(NULL, 4190208, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb83f81000
+4026434 munmap(0x7ffb83f81000, 520192)  = 0
+4026434 munmap(0x7ffb84200000, 1572864) = 0
+4026434 mmap(NULL, 100663296, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb7e000000
+4026434 mmap(NULL, 6291456, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb7da00000
+4026434 mmap(NULL, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffb8688a000
+4026434 write(1, ">>>> redis name out of order AI."..., 55) = 55
+4026434 write(1, ">>>> redis enum out of order COM"..., 48) = 48
+4026434 write(1, ">>>> redis name out of order COM"..., 48) = 48
+4026434 write(1, ">>>> redis enum out of order CRD"..., 59) = 59
+4026434 write(1, ">>>> redis name out of order CRD"..., 55) = 55
+4026434 write(1, ">>>> redis enum out of order CRD"..., 59) = 59
+4026434 write(1, ">>>> redis name out of order CRD"..., 59) = 59
+4026434 write(1, ">>>> redis enum out of order CRD"..., 59) = 59
+4026434 write(1, ">>>> redis name out of order CRD"..., 55) = 55
+4026434 write(1, ">>>> redis enum out of order CRD"..., 55) = 55
+4026434 write(1, ">>>> redis name out of order CRD"..., 55) = 55
+4026434 write(1, ">>>> redis enum out of order CRD"..., 55) = 55
+4026434 write(1, ">>>> redis name out of order CRD"..., 56) = 56
+4026434 write(1, ">>>> redis enum out of order CRD"..., 56) = 56
+4026434 write(1, ">>>> redis enum out of order FT."..., 58) = 58
+4026434 write(1, ">>>> redis name out of order FT."..., 60) = 60
+4026434 write(1, ">>>> redis enum out of order FT."..., 60) = 60
+4026434 write(1, ">>>> redis name out of order FT."..., 60) = 60
+4026434 write(1, ">>>> redis name out of order FT."..., 57) = 57
+4026434 write(1, ">>>> redis enum out of order FT."..., 53) = 53
+4026434 write(1, ">>>> redis enum out of order FT."..., 55) = 55
+4026434 write(1, ">>>> redis enum out of order FT."..., 54) = 54
+4026434 write(1, ">>>> redis enum out of order FT."..., 59) = 59
+4026434 write(1, ">>>> redis enum out of order JSO"..., 50) = 50
+4026434 write(1, ">>>> redis name out of order JSO"..., 50) = 50
+4026434 write(1, ">>>> redis enum out of order SLO"..., 54) = 54
+4026434 write(1, ">>>> redis name out of order SLO"..., 54) = 54
+4026434 getuid()                        = 115
+4026434 geteuid()                       = 115
+4026434 getgid()                        = 123
+4026434 getegid()                       = 123
+4026434 openat(AT_FDCWD, "/etc/sasl2/dmcproxy_sasl.conf", O_RDONLY) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/etc/sasl/dmcproxy_sasl.conf", O_RDONLY) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/dmcproxy_sasl.conf", O_RDONLY) = -1 ENOENT (No such file or directory)
+4026434 openat(AT_FDCWD, "/usr/lib/sasl2/dmcproxy_sasl.conf", O_RDONLY) = -1 ENOENT (No such file or directory)
+4026434 getuid()                        = 115
+4026434 geteuid()                       = 115
+4026434 getgid()                        = 123
+4026434 getegid()                       = 123
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 22
+4026434 fstat(22, {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+4026434 getdents64(22, /* 23 entries */, 32768) = 864
+4026434 futex(0x7ffb85cb40c8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/libplain.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@\22\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=22904, ...}) = 0
+4026434 mmap(NULL, 24816, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb85c8c000
+4026434 mmap(0x7ffb85c8d000, 12288, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x1000) = 0x7ffb85c8d000
+4026434 mmap(0x7ffb85c90000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x4000) = 0x7ffb85c90000
+4026434 mmap(0x7ffb85c91000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x4000) = 0x7ffb85c91000
+4026434 close(23)                       = 0
+4026434 mprotect(0x7ffb85c91000, 4096, PROT_READ) = 0
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/libdigestmd5.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\340#\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=60160, ...}) = 0
+4026434 mmap(NULL, 62088, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb85c7c000
+4026434 mmap(0x7ffb85c7e000, 36864, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x2000) = 0x7ffb85c7e000
+4026434 mmap(0x7ffb85c87000, 12288, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0xb000) = 0x7ffb85c87000
+4026434 mmap(0x7ffb85c8a000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0xd000) = 0x7ffb85c8a000
+4026434 close(23)                       = 0
+4026434 mprotect(0x7ffb85c8a000, 4096, PROT_READ) = 0
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/libntlm.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@%\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=39288, ...}) = 0
+4026434 mmap(NULL, 41200, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb85c71000
+4026434 mmap(0x7ffb85c73000, 20480, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x2000) = 0x7ffb85c73000
+4026434 mmap(0x7ffb85c78000, 8192, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x7000) = 0x7ffb85c78000
+4026434 mmap(0x7ffb85c7a000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x8000) = 0x7ffb85c7a000
+4026434 close(23)                       = 0
+4026434 mprotect(0x7ffb85c7a000, 4096, PROT_READ) = 0
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/libcrammd5.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\200\22\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=22904, ...}) = 0
+4026434 mmap(NULL, 24816, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb85c6a000
+4026434 mmap(0x7ffb85c6b000, 12288, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x1000) = 0x7ffb85c6b000
+4026434 mmap(0x7ffb85c6e000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x4000) = 0x7ffb85c6e000
+4026434 mmap(0x7ffb85c6f000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x4000) = 0x7ffb85c6f000
+4026434 close(23)                       = 0
+4026434 mprotect(0x7ffb85c6f000, 4096, PROT_READ) = 0
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/libanonymous.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@\22\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=18808, ...}) = 0
+4026434 mmap(NULL, 20720, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb85c64000
+4026434 mmap(0x7ffb85c65000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x1000) = 0x7ffb85c65000
+4026434 mmap(0x7ffb85c67000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x3000) = 0x7ffb85c67000
+4026434 mmap(0x7ffb85c68000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x3000) = 0x7ffb85c68000
+4026434 close(23)                       = 0
+4026434 mprotect(0x7ffb85c68000, 4096, PROT_READ) = 0
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\240\"\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=30784, ...}) = 0
+4026434 mmap(NULL, 32856, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb85c5b000
+4026434 mmap(0x7ffb85c5d000, 12288, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x2000) = 0x7ffb85c5d000
+4026434 mmap(0x7ffb85c60000, 8192, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x5000) = 0x7ffb85c60000
+4026434 mmap(0x7ffb85c62000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x6000) = 0x7ffb85c62000
+4026434 close(23)                       = 0
+4026434 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 23
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=64542, ...}) = 0
+4026434 mmap(NULL, 64542, PROT_READ, MAP_PRIVATE, 23, 0) = 0x7ffb85c4b000
+4026434 close(23)                       = 0
+4026434 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libdb-5.3.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\300\20\2\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=1760880, ...}) = 0
+4026434 mmap(NULL, 1762760, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb84a50000
+4026434 mmap(0x7ffb84a70000, 1318912, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x20000) = 0x7ffb84a70000
+4026434 mmap(0x7ffb84bb2000, 282624, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x162000) = 0x7ffb84bb2000
+4026434 mmap(0x7ffb84bf7000, 32768, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x1a6000) = 0x7ffb84bf7000
+4026434 close(23)                       = 0
+4026434 mprotect(0x7ffb84bf7000, 28672, PROT_READ) = 0
+4026434 mprotect(0x7ffb85c62000, 4096, PROT_READ) = 0
+4026434 munmap(0x7ffb85c4b000, 64542)   = 0
+4026434 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/sasl2/liblogin.so", O_RDONLY|O_CLOEXEC) = 23
+4026434 read(23, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 \22\0\0\0\0\0\0"..., 832) = 832
+4026434 fstat(23, {st_mode=S_IFREG|0644, st_size=18808, ...}) = 0
+4026434 mmap(NULL, 20720, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 23, 0) = 0x7ffb85c55000
+4026434 mmap(0x7ffb85c56000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x1000) = 0x7ffb85c56000
+4026434 mmap(0x7ffb85c58000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x3000) = 0x7ffb85c58000
+4026434 mmap(0x7ffb85c59000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 23, 0x3000) = 0x7ffb85c59000
+4026434 close(23)                       = 0
+4026434 mprotect(0x7ffb85c59000, 4096, PROT_READ) = 0
+4026434 getdents64(22, /* 0 entries */, 32768) = 0
+4026434 close(22)                       = 0
+4026434 write(16, "\0", 1)              = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 920) = 1
+4026437 read(15, "\0", 1)               = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7ffb7d1ff000
+4026434 mprotect(0x7ffb7d200000, 8388608, PROT_READ|PROT_WRITE) = 0
+4026434 clone(child_stack=0x7ffb7d9fd830, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[4026440], tls=0x7ffb7d9ff700, child_tidptr=0x7ffb7d9ff9d0) = 4026440
+4026434 futex(0x7ffce7e06790, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+4026440 set_robust_list(0x7ffb7d9ff9e0, 24) = 0
+4026440 madvise(0x7ffb8590b000, 32768, MADV_DONTNEED) = 0
+4026440 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb7cfff000
+4026440 munmap(0x7ffb7cfff000, 2097152) = 0
+4026440 mmap(NULL, 4190208, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb7ce00000
+4026440 munmap(0x7ffb7d000000, 2093056) = 0
+4026440 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb7cc00000
+4026440 gettid()                        = 4026440
+4026440 prctl(PR_SET_NAME, "offloader") = 0
+4026440 write(2, "2) 2024-01-16 23:59:54.164005 [3"..., 80) = 80
+4026440 openat(AT_FDCWD, "/etc/opt/redislabs/node.id", O_RDONLY) = 22
+4026440 fstat(22, {st_mode=S_IFREG|0644, st_size=2, ...}) = 0
+4026440 read(22, "1\n", 4096)           = 2
+4026440 close(22)                       = 0
+4026440 openat(AT_FDCWD, "/etc/opt/redislabs/ccs-auth.conf", O_RDONLY) = 22
+4026440 fstat(22, {st_mode=S_IFREG|0640, st_size=153, ...}) = 0
+4026440 read(22, "requirepass J3j1cSp1olXt6FSjP62M"..., 4096) = 153
+4026440 close(22)                       = 0
+4026440 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026440 socket(AF_UNIX, SOCK_STREAM, 0) = 22
+4026440 fcntl(22, F_GETFL)              = 0x2 (flags O_RDWR)
+4026440 fcntl(22, F_SETFL, O_RDWR|O_NONBLOCK) = 0
+4026440 connect(22, {sa_family=AF_UNIX, sun_path="/var/opt/redislabs/run/ccs.sock"}, 110) = 0
+4026440 fcntl(22, F_GETFL)              = 0x802 (flags O_RDWR|O_NONBLOCK)
+4026440 fcntl(22, F_SETFL, O_RDWR)      = 0
+4026440 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026440 setsockopt(22, SOL_SOCKET, SO_RCVTIMEO_OLD, "\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) = 0
+4026440 setsockopt(22, SOL_SOCKET, SO_SNDTIMEO_OLD, "\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) = 0
+4026440 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026440 sendto(22, "*2\r\n$4\r\nAUTH\r\n$64\r\nJ3j1cSp1olXt6"..., 85, 0, NULL, 0) = 85
+4026440 recvfrom(22, "+OK\r\n", 16384, 0, NULL, NULL) = 5
+4026440 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026440 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026440 sendto(22, "*3\r\n$6\r\nCLIENT\r\n$7\r\nSETNAME\r\n$21"..., 57, 0, NULL, 0) = 57
+4026440 recvfrom(22, "+OK\r\n", 16384, 0, NULL, NULL) = 5
+4026440 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026440 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026440 sendto(22, "*2\r\n$7\r\nHGETALL\r\n$6\r\nnode:1\r\n", 29, 0, NULL, 0) = 29
+4026440 recvfrom(22, "*100\r\n$12\r\ntotal_memory\r\n$11\r\n16"..., 16384, 0, NULL, NULL) = 2176
+4026440 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026440 mmap(NULL, 117440512, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb75c00000
+4026440 futex(0x7ffce7e06790, FUTEX_WAKE_PRIVATE, 1) = 1
+4026434 <... futex resumed>)            = 0
+4026440 futex(0x7ffb7cc00100, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+4026434 futex(0x7ffce7e06740, FUTEX_WAKE_PRIVATE, 1) = 0
+4026434 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7ffb753ff000
+4026434 mprotect(0x7ffb75400000, 8388608, PROT_READ|PROT_WRITE) = 0
+4026434 clone(child_stack=0x7ffb75bfd830, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[4026441], tls=0x7ffb75bff700, child_tidptr=0x7ffb75bff9d0) = 4026441
+4026434 futex(0x7ffce7e06850, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+4026441 set_robust_list(0x7ffb75bff9e0, 24) = 0
+4026441 madvise(0x7ffb85922000, 32768, MADV_DONTNEED) = 0
+4026441 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb751ff000
+4026441 munmap(0x7ffb751ff000, 2097152) = 0
+4026441 mmap(NULL, 4190208, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb75000000
+4026441 munmap(0x7ffb75200000, 2093056) = 0
+4026441 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb74e00000
+4026441 gettid()                        = 4026441
+4026441 prctl(PR_SET_NAME, "listener")  = 0
+4026441 write(2, "3) 2024-01-16 23:59:54.180006 [4"..., 79) = 79
+4026441 getuid()                        = 115
+4026441 geteuid()                       = 115
+4026441 getgid()                        = 123
+4026441 getegid()                       = 123
+4026441 getuid()                        = 115
+4026441 geteuid()                       = 115
+4026441 getgid()                        = 123
+4026441 getegid()                       = 123
+4026441 epoll_create1(EPOLL_CLOEXEC)    = 23
+4026441 getuid()                        = 115
+4026441 geteuid()                       = 115
+4026441 getgid()                        = 123
+4026441 getegid()                       = 123
+4026441 pipe2([24, 25], O_NONBLOCK|O_CLOEXEC) = 0
+4026441 getuid()                        = 115
+4026441 geteuid()                       = 115
+4026441 getgid()                        = 123
+4026441 getegid()                       = 123
+4026441 eventfd2(0, EFD_CLOEXEC|EFD_NONBLOCK) = 26
+4026441 epoll_ctl(23, EPOLL_CTL_ADD, 26, {EPOLLIN, {u32=26, u64=26}}) = 0
+4026441 pipe2([27, 28], O_NONBLOCK|O_CLOEXEC) = 0
+4026441 epoll_ctl(23, EPOLL_CTL_ADD, 27, {EPOLLIN, {u32=27, u64=27}}) = 0
+4026441 pipe2([29, 30], O_NONBLOCK|O_CLOEXEC) = 0
+4026441 epoll_ctl(23, EPOLL_CTL_ADD, 29, {EPOLLIN, {u32=29, u64=29}}) = 0
+4026441 futex(0x7ffce7e06850, FUTEX_WAKE_PRIVATE, 1) = 1
+4026434 <... futex resumed>)            = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026434 futex(0x7ffce7e06800, FUTEX_WAKE_PRIVATE, 1) = 0
+4026434 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7ffb745ff000
+4026434 mprotect(0x7ffb74600000, 8388608, PROT_READ|PROT_WRITE) = 0
+4026434 clone(child_stack=0x7ffb74dfd830, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[4026444], tls=0x7ffb74dff700, child_tidptr=0x7ffb74dff9d0) = 4026444
+4026434 futex(0x7ffce7e069a0, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 set_robust_list(0x7ffb74dff9e0, 24) = 0
+4026444 madvise(0x7ffb8592a000, 32768, MADV_DONTNEED) = 0
+4026444 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb743ff000
+4026444 munmap(0x7ffb743ff000, 2097152) = 0
+4026444 mmap(NULL, 4190208, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb74200000
+4026444 munmap(0x7ffb74400000, 2093056) = 0
+4026444 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000}, NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... mmap resumed>)             = 0x7ffb74000000
+4026444 gettid()                        = 4026444
+4026444 prctl(PR_SET_NAME, "mgmt")      = 0
+4026444 write(2, "4) 2024-01-16 23:59:54.196007 [5"..., 75) = 75
+4026444 getuid()                        = 115
+4026444 geteuid()                       = 115
+4026444 getgid()                        = 123
+4026444 getegid( <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... getegid resumed>)          = 123
+4026444 getuid( <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... getuid resumed>)           = 115
+4026444 geteuid()                       = 115
+4026444 getgid()                        = 123
+4026444 getegid()                       = 123
+4026444 epoll_create1(EPOLL_CLOEXEC)    = 31
+4026444 getuid()                        = 115
+4026444 geteuid()                       = 115
+4026444 getgid( <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... getgid resumed>)           = 123
+4026444 getegid()                       = 123
+4026444 pipe2([32, 33], O_NONBLOCK|O_CLOEXEC) = 0
+4026444 getuid()                        = 115
+4026444 geteuid()                       = 115
+4026444 getgid()                        = 123
+4026444 getegid( <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... getegid resumed>)          = 123
+4026444 eventfd2(0, EFD_CLOEXEC|EFD_NONBLOCK) = 34
+4026444 epoll_ctl(31, EPOLL_CTL_ADD, 34, {EPOLLIN, {u32=34, u64=34}}) = 0
+4026444 pipe2([35, 36], O_NONBLOCK|O_CLOEXEC) = 0
+4026444 epoll_ctl(31, EPOLL_CTL_ADD, 35, {EPOLLIN, {u32=35, u64=35}}) = 0
+4026444 pipe2([37, 38], O_NONBLOCK|O_CLOEXEC) = 0
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 epoll_ctl(31, EPOLL_CTL_ADD, 37, {EPOLLIN, {u32=37, u64=37}}) = 0
+4026444 pipe2([39, 40], O_NONBLOCK|O_CLOEXEC) = 0
+4026444 epoll_ctl(31, EPOLL_CTL_ADD, 39, {EPOLLIN, {u32=39, u64=39}}) = 0
+4026444 pipe2([41, 42], O_NONBLOCK|O_CLOEXEC) = 0
+4026444 epoll_ctl(31, EPOLL_CTL_ADD, 41, {EPOLLIN, {u32=41, u64=41}}) = 0
+4026444 futex(0x7ffce7e069a0, FUTEX_WAKE_PRIVATE, 1) = 1
+4026434 <... futex resumed>)            = 0
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026434 futex(0x7ffce7e06950, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+4026444 futex(0x7ffce7e06950, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+4026434 <... futex resumed>)            = -1 EAGAIN (Resource temporarily unavailable)
+4026444 <... futex resumed>)            = 0
+4026434 futex(0x7ffce7e06950, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+4026444 timer_create(CLOCK_MONOTONIC, {sigev_signo=SIGALRM, sigev_notify=SIGEV_THREAD_ID, sigev_notify_thread_id=4026444},  <unfinished ...>
+4026434 <... futex resumed>)            = 0
+4026444 <... timer_create resumed>[0])  = 0
+4026434 write(16, "\0", 1 <unfinished ...>
+4026444 timer_settime(0, 0, {it_interval={tv_sec=1, tv_nsec=0}, it_value={tv_sec=2, tv_nsec=0}},  <unfinished ...>
+4026434 <... write resumed>)            = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 904) = 1
+4026437 read(15,  <unfinished ...>
+4026434 epoll_wait(3,  <unfinished ...>
+4026444 <... timer_settime resumed>NULL) = 0
+4026434 <... epoll_wait resumed>[], 32, 0) = 0
+4026437 <... read resumed>"\0", 1)      = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026434 epoll_wait(3,  <unfinished ...>
+4026444 write(16, "\0", 1 <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... write resumed>)            = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 856) = 1
+4026444 openat(AT_FDCWD, "/etc/opt/redislabs/node.id", O_RDONLY <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026444 <... openat resumed>)           = 43
+4026437 <... read resumed>"\0", 1)      = 1
+4026444 fstat(43,  <unfinished ...>
+4026437 epoll_wait(9,  <unfinished ...>
+4026444 <... fstat resumed>{st_mode=S_IFREG|0644, st_size=2, ...}) = 0
+4026444 read(43, "1\n", 4096)           = 2
+4026444 close(43)                       = 0
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 openat(AT_FDCWD, "/etc/opt/redislabs/ccs-auth.conf", O_RDONLY) = 43
+4026444 fstat(43, {st_mode=S_IFREG|0640, st_size=153, ...}) = 0
+4026444 read(43, "requirepass J3j1cSp1olXt6FSjP62M"..., 4096) = 153
+4026444 close(43)                       = 0
+4026444 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026444 socket(AF_UNIX, SOCK_STREAM, 0) = 43
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 fcntl(43, F_GETFL)              = 0x2 (flags O_RDWR)
+4026444 fcntl(43, F_SETFL, O_RDWR|O_NONBLOCK) = 0
+4026444 connect(43, {sa_family=AF_UNIX, sun_path="/var/opt/redislabs/run/ccs.sock"}, 110) = 0
+4026444 fcntl(43, F_GETFL)              = 0x802 (flags O_RDWR|O_NONBLOCK)
+4026444 fcntl(43, F_SETFL, O_RDWR)      = 0
+4026444 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 setsockopt(43, SOL_SOCKET, SO_RCVTIMEO_OLD, "\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) = 0
+4026444 setsockopt(43, SOL_SOCKET, SO_SNDTIMEO_OLD, "\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) = 0
+4026444 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026444 sendto(43, "*2\r\n$4\r\nAUTH\r\n$64\r\nJ3j1cSp1olXt6"..., 85, 0, NULL, 0) = 85
+4026444 recvfrom(43,  <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000}, NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000}, NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000}, NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... recvfrom resumed>"+OK\r\n", 16384, 0, NULL, NULL) = 5
+4026444 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026444 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026444 sendto(43, "*3\r\n$6\r\nCLIENT\r\n$7\r\nSETNAME\r\n$15"..., 51, 0, NULL, 0) = 51
+4026444 recvfrom(43,  <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... recvfrom resumed>"+OK\r\n", 16384, 0, NULL, NULL) = 5
+4026444 rt_sigprocmask(SIG_UNBLOCK, [ALRM], NULL, 8) = 0
+4026444 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026444 sendto(43, "*2\r\n$7\r\nHGETALL\r\n$6\r\nnode:1\r\n", 29, 0, NULL, 0) = 29
+4026444 recvfrom(43, "*100\r\n$12\r\ntotal_memory\r\n$11\r\n16"..., 16384, 0, NULL, NULL) = 2176
+4026444 rt_sigprocmask(SIG_UNBLOCK, [ALRM],  <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... rt_sigprocmask resumed>NULL, 8) = 0
+4026444 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7ffb737ff000
+4026444 mprotect(0x7ffb73800000, 8388608, PROT_READ|PROT_WRITE) = 0
+4026444 clone(child_stack=0x7ffb73ffd830, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[4026446], tls=0x7ffb73fff700, child_tidptr=0x7ffb73fff9d0) = 4026446
+4026444 pipe2([44, 45], O_CLOEXEC)      = 0
+4026444 epoll_ctl(31, EPOLL_CTL_ADD, 44, {EPOLLIN, {u32=44, u64=44}}) = 0
+4026444 write(16, "\0", 1)              = 1
+4026444 socket(AF_UNIX, SOCK_STREAM, 0) = 46
+4026444 fcntl(46, F_GETFL)              = 0x2 (flags O_RDWR)
+4026444 fcntl(46, F_SETFL, O_RDWR|O_NONBLOCK <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026444 <... fcntl resumed>)            = 0
+4026444 connect(46, {sa_family=AF_UNIX, sun_path="/var/opt/redislabs/run/ccs.sock"}, 110) = 0
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 856) = 1
+4026444 epoll_ctl(31, EPOLL_CTL_ADD, 46, {EPOLLOUT, {u32=46, u64=46}}) = 0
+4026444 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7ffb72ffe000
+4026444 mprotect(0x7ffb72fff000, 8388608, PROT_READ|PROT_WRITE) = 0
+4026444 clone(child_stack=0x7ffb737fc830, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID <unfinished ...>
+4026437 read(15,  <unfinished ...>
+4026444 <... clone resumed>, parent_tid=[4026447], tls=0x7ffb737fe700, child_tidptr=0x7ffb737fe9d0) = 4026447
+4026444 futex(0x7ffb74dfd4d0, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+4026437 <... read resumed>"\0", 1)      = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000}, NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026446 set_robust_list(0x7ffb73fff9e0, 24) = 0
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026446 rt_sigprocmask(SIG_BLOCK, [ALRM], NULL, 8) = 0
+4026446 gettid()                        = 4026446
+4026446 prctl(PR_SET_NAME, "anonymous") = 0
+4026446 madvise(0x7ffb85932000, 32768, MADV_DONTNEED <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026446 <... madvise resumed>)          = 0
+4026446 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7ffb72dfe000
+4026447 set_robust_list(0x7ffb737fe9e0, 24) = 0
+4026447 futex(0x7ffb86476e60, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+4026446 munmap(0x7ffb72dfe000, 2097152) = 0
+4026446 mmap(NULL, 4190208, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026446 <... mmap resumed>)             = 0x7ffb72bff000
+4026446 munmap(0x7ffb72bff000, 4096)    = 0
+4026446 munmap(0x7ffb72e00000, 2088960) = 0
+4026446 futex(0x7ffb86476e60, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+4026447 <... futex resumed>)            = 0
+4026446 <... futex resumed>)            = 1
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026447 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+4026446 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+4026447 <... mmap resumed>)             = 0x7ffb72a00000
+4026446 <... mmap resumed>)             = 0x7ffb72800000
+4026447 futex(0x7ffb86476e60, FUTEX_WAKE_PRIVATE, 1) = 0
+4026446 write(16, "\0", 1 <unfinished ...>
+4026447 mmap(NULL, 2097152, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+4026446 <... write resumed>)            = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 840) = 1
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026437 read(15, "\0", 1)               = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026447 <... mmap resumed>)             = 0x7ffb72600000
+4026446 rt_sigprocmask(SIG_BLOCK, [ALRM],  <unfinished ...>
+4026447 gettid( <unfinished ...>
+4026446 <... rt_sigprocmask resumed>NULL, 8) = 0
+4026447 <... gettid resumed>)           = 4026447
+4026447 prctl(PR_SET_NAME, "cli_listener" <unfinished ...>
+4026446 socket(AF_UNIX, SOCK_STREAM, 0 <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026447 <... prctl resumed>)            = 0
+4026446 <... socket resumed>)           = 47
+4026447 write(2, "5) 2024-01-16 23:59:54.228008 [6"..., 85 <unfinished ...>
+4026446 fcntl(47, F_GETFL <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026447 <... write resumed>)            = 85
+4026447 socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC, IPPROTO_IP <unfinished ...>
+4026446 <... fcntl resumed>)            = 0x2 (flags O_RDWR)
+4026447 <... socket resumed>)           = 48
+4026446 fcntl(47, F_SETFL, O_RDWR|O_NONBLOCK <unfinished ...>
+4026447 setsockopt(48, SOL_SOCKET, SO_REUSEADDR, [1], 4 <unfinished ...>
+4026446 <... fcntl resumed>)            = 0
+4026447 <... setsockopt resumed>)       = 0
+4026446 connect(47, {sa_family=AF_UNIX, sun_path="/var/opt/redislabs/run/ccs.sock"}, 110 <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026447 bind(48, {sa_family=AF_INET, sin_port=htons(1968), sin_addr=inet_addr("127.0.0.1")}, 16 <unfinished ...>
+4026446 <... connect resumed>)          = 0
+4026447 <... bind resumed>)             = -1 EADDRINUSE (Address already in use)
+4026446 fcntl(47, F_GETFL <unfinished ...>
+4026447 write(16, "\0", 1 <unfinished ...>
+4026446 <... fcntl resumed>)            = 0x802 (flags O_RDWR|O_NONBLOCK)
+4026447 <... write resumed>)            = 1
+4026437 <... epoll_wait resumed>[{EPOLLIN, {u32=15, u64=15}}], 32, 832) = 1
+4026446 fcntl(47, F_SETFL, O_RDWR <unfinished ...>
+4026437 write(19, "17) 2024-01-16 23:59:53.076 [402"..., 3232 <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026437 <... write resumed>)            = 3232
+4026437 read(15, "\0", 1)               = 1
+4026437 epoll_wait(9,  <unfinished ...>
+4026447 madvise(0x7ffb85918000, 20480, MADV_DONTNEED <unfinished ...>
+4026446 <... fcntl resumed>)            = 0
+4026447 <... madvise resumed>)          = 0
+4026446 rt_sigprocmask(SIG_UNBLOCK, [ALRM],  <unfinished ...>
+4026441 <... clock_nanosleep resumed>NULL) = 0
+4026441 clock_nanosleep(CLOCK_REALTIME, 0, {tv_sec=0, tv_nsec=1000000},  <unfinished ...>
+4026447 exit_group(1 <unfinished ...>
+4026446 <... rt_sigprocmask resumed>NULL, 8) = 0
+4026447 <... exit_group resumed>)       = ?
+4026434 <... epoll_wait resumed> <unfinished ...>) = ?
+4026437 <... epoll_wait resumed> <unfinished ...>) = ?
+4026444 <... futex resumed>)            = ?
+4026441 <... clock_nanosleep resumed> <unfinished ...>) = ?
+4026440 <... futex resumed>)            = ?
+4026444 +++ exited with 1 +++
+4026441 +++ exited with 1 +++
+4026440 +++ exited with 1 +++
+4026437 +++ exited with 1 +++
+4026447 +++ exited with 1 +++
+4026446 +++ exited with 1 +++
+4026434 +++ exited with 1 +++

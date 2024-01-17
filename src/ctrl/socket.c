@@ -35,6 +35,7 @@ int __demi_socket(int domain, int type, int protocol)
     {
         // The underlying Demikernel system call succeeded.
         // Therefore, register this socket descriptor as one managed by Demikernel.
+        TRACE("registered socket %d", qd);
         ret = queue_man_register_fd(qd);
     }
 
