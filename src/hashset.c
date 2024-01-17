@@ -6,8 +6,10 @@
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 #define HASHSET_NULL -1
+static pthread_mutex_t hashsetmutex = PTHREAD_MUTEX_INITIALIZER;
 
 struct hashset
 {
@@ -17,6 +19,8 @@ struct hashset
 
 struct hashset *hashset_create(int length_log2)
 {
+    pthread_mutex_lock(&hashsetmutex);
+
     int *table = NULL;
     struct hashset *h = NULL;
 
@@ -33,11 +37,13 @@ struct hashset *hashset_create(int length_log2)
     for (int i = 0; i < (1 << h->length_log2); i++)
         h->table[i] = HASHSET_NULL;
 
+    pthread_mutex_unlock(&hashsetmutex);
     return (h);
 }
 
 int hashset_insert(struct hashset *h, int val)
 {
+    pthread_mutex_lock(&hashsetmutex);
     int skip = 0;
     int hash = 0;
     const int length = (1 << h->length_log2);
@@ -53,6 +59,7 @@ int hashset_insert(struct hashset *h, int val)
         if (h->table[hash] == HASHSET_NULL)
         {
             h->table[hash] = val;
+            pthread_mutex_unlock(&hashsetmutex);
             return (hash);
         }
 
@@ -60,12 +67,13 @@ int hashset_insert(struct hashset *h, int val)
     } while (++skip == length);
 
     PANIC("overflow h=%p, val=%d", (void *)h, val);
-
+    pthread_mutex_unlock(&hashsetmutex);
     return (HASHSET_NULL);
 }
 
 int hashset_contains(struct hashset *h, int val)
 {
+    pthread_mutex_lock(&hashsetmutex);
     int skip = 0;
     int hash = 0;
     const int length = (1 << h->length_log2);
@@ -79,16 +87,20 @@ int hashset_contains(struct hashset *h, int val)
     do
     {
         if (h->table[hash] == val)
+        {
+            pthread_mutex_unlock(&hashsetmutex);
             return (1);
+        }
 
         hash = (hash + 1) & mask;
     } while (++skip == length);
-
+    pthread_mutex_unlock(&hashsetmutex);
     return (0);
 }
 
 void hashset_remove(struct hashset *h, int key)
 {
+    pthread_mutex_lock(&hashsetmutex);
     const int length = (1 << h->length_log2);
 
     assert(h != NULL);
@@ -96,4 +108,5 @@ void hashset_remove(struct hashset *h, int key)
     assert(h->table[key] != HASHSET_NULL);
 
     h->table[key] = HASHSET_NULL;
+    pthread_mutex_unlock(&hashsetmutex);
 }

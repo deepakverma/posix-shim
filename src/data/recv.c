@@ -16,7 +16,6 @@
 ssize_t __demi_read(int sockfd, void *buf, size_t count)
 {
     int epfd = -1;
-
     // Check if this is a reentrant call.
     // If that is not the case, then fail to let the Linux kernel handle it.
     if (__epoll_reent_guard)

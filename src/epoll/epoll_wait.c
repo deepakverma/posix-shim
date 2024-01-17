@@ -16,6 +16,7 @@
 int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 {
     int nevents = 0;
+    int epfdlocal;
     timeout = 10;
     struct timespec abstime = {0, timeout * 1000000};
 
@@ -27,8 +28,9 @@ int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int t
     }
 
     // Check if epoll descriptor is managed by Demikernel.
-    if ((epfd = queue_man_get_demikernel_epfd(epfd)) == -1)
+    if ((epfdlocal = queue_man_get_demikernel_epfd(epfd)) == -1)
     {
+        TRACE("epoll_wait not managed by demikernel epfd=%d ", epfd);
         errno = EBADF;
         return -1;
     }
@@ -38,7 +40,7 @@ int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int t
     // Traverse events.
     for (int i = 0; i < MAX_EVENTS && i < maxevents; i++)
     {
-        struct demi_event *ev = epoll_get_event(epfd, i);
+        struct demi_event *ev = epoll_get_event(epfdlocal, i);
         if ((ev->used) && (ev->qt != (demi_qtoken_t)-1))
         {
             __epoll_reent_guard = 1;
