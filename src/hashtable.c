@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include "log.h"
 
 #define HASHTABLE_NULL -1
 static pthread_mutex_t hashtablemutex = PTHREAD_MUTEX_INITIALIZER;
@@ -89,7 +90,7 @@ uint64_t hashtable_get(struct hashtable *h, int key)
     int hash = 0;
     const int length = (1 << h->length_log2);
     const int mask = (length - 1);
-
+    TRACE("test");
     assert(h != NULL);
     assert(key != HASHTABLE_NULL);
 

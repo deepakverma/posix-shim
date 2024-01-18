@@ -108,6 +108,7 @@ void init_functions() {
             assert((libc_bind = dlsym(RTLD_NEXT, "bind")) != NULL);
             assert((libc_listen = dlsym(RTLD_NEXT, "listen")) != NULL);
             assert((libc_fcntl = dlsym(RTLD_NEXT, "fcntl")) != NULL);
+            assert((libc_epoll_wait = dlsym(RTLD_NEXT, "epoll_wait")) != NULL);
             reentrant_init = 1;
             __demi_init();
             reentrant_init = 0;
@@ -127,11 +128,13 @@ int socket(int domain, int type, int protocol) {
 }
 
 int fcntl(int fd, int cmd, ... /* arg */) {
-    if(fd>=500) {
+    int demifd;
+    if((demifd = queue_man_query_fd_demifd(fd)) != -1)
+    {
         return 1;
     }
     init_functions();
-     va_list args;
+    va_list args;
     va_start(args, cmd);
     int result = libc_fcntl(fd, cmd, va_arg(args, long));  // Assuming the argument is 'long'
     va_end(args);
@@ -139,33 +142,87 @@ int fcntl(int fd, int cmd, ... /* arg */) {
 }
 
 
-int epoll_create1(int flag) {
-    init_functions();
-    assert(libc_epoll_create1 != NULL);
-    return libc_epoll_create1(flag);
-}
+// int epoll_create1(int flag) {
+//     init_functions();
+//     assert(libc_epoll_create1 != NULL);
+//     return libc_epoll_create1(flag);
+// }
 
-int epoll_create(int size) {
-    init_functions();
-    assert(libc_epoll_create != NULL);
-    return libc_epoll_create(size);
-}
+// int epoll_create(int size) {
+//     init_functions();
+//     assert(libc_epoll_create != NULL);
+//     return libc_epoll_create(size);
+// }
 
+__thread int epoll_ctl_reentrant = 0;
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event) {
     init_functions();
     assert(libc_epoll_ctl != NULL);
+    if(!epoll_ctl_reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(fd)) != -1)
+        {
+            // register the fd with demiepoll
+            int demiepollfd = queue_man_get_demikernel_epfd(fd);
+            int demifd = queue_man_query_fd_demifd(fd);
+            TRACE("epoll_ctl sockfd=%d, demifd=%d demiepollfd=%d", fd, demifd, demiepollfd);
+            epoll_ctl_reentrant= 1;
+            int ret = __demi_epoll_ctl(demiepollfd, op, demifd, event);
+            epoll_ctl_reentrant = 0;
+            TRACE("epoll_ctl ret=%d", ret);
+            return ret;
+        }
+    }
     return libc_epoll_ctl(epfd, op, fd, event);
 }
 
+__thread int epoll_wait_reentrant = 0;
+int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout){
+    init_functions();
+    assert(libc_epoll_wait != NULL);
+    int demiepfd;
+    if(!epoll_wait_reentrant) {
+        if((demiepfd = queue_man_get_demikernel_epfd(epfd)) != -1)
+        {
+            epoll_wait_reentrant = 1;
+            __demi_epoll_wait(demiepfd, events, maxevents, timeout);
+            epoll_wait_reentrant = 0;
+        }
+    }
+    return libc_epoll_wait(epfd, events, maxevents, timeout);
+}
+
+__thread int read_reentrant = 0;
 int read(int fd, void *buf, size_t count){
     init_functions();
     assert(libc_read != NULL);
+    if(!read_reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(fd)) != -1)
+        {
+            read_reentrant = 1;
+            int ret = __demi_read(demifd, buf, count);
+            read_reentrant = 0;
+            return ret;
+        }
+    }
     return libc_read(fd, buf, count);
 }
 
+__thread int write_reentrant = 0;
 int write(int fd, void *buf, size_t count){
     init_functions();
     assert(libc_write != NULL);
+    if(!write_reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(fd)) != -1)
+        {
+            write_reentrant = 1;
+            int ret = __demi_write(demifd, buf, count);
+            write_reentrant = 0;
+            return ret;
+        }
+    }
     return libc_write(fd, buf, count);
 }
 
@@ -197,27 +254,33 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen){
             local_addr.sin_addr.s_addr = inet_addr("172.28.0.5");  // Specific local IPv4 address
             local_addr.sin_port = htons(port);
 
+            // bind demi socket
             bindreentrant = 1;
             int ret = __demi_bind(demifd,(struct sockaddr *) &local_addr, sizeof(local_addr));
             bindreentrant = 0;
             queue_man_link_fd_demifd(sockfd, demifd);
+
+            // create demi epoll
+            int demiepoll = __demi_epoll_create(MAX_EVENTS);
+            // mapping of demifd todemiepoll
+            queue_man_register_linux_epfd(demifd, demiepoll);
             return ret;
         }
     } else {
         TRACE("reentrantbind with sockfd =%d", sockfd);
     }
-
     return libc_bind(sockfd, addr, addrlen);
 }
 
 int listen(int sockfd, int backlog) {
     init_functions();
     assert(libc_listen != NULL);
-    // int demifd;
-    // if((demifd = queue_man_query_fd_demifd(sockfd)))
-    // {
-    //     return __demi_listen(demifd, backlog);
-    // }
+    int demifd;
+    if((demifd = queue_man_query_fd_demifd(sockfd)) != -1)
+    {
+        TRACE("demifd %d", demifd);
+        return __demi_listen(demifd, backlog);
+    }
     return libc_listen(sockfd, backlog);
 }
 

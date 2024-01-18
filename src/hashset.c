@@ -48,7 +48,6 @@ int hashset_insert(struct hashset *h, int val)
     int hash = 0;
     const int length = (1 << h->length_log2);
     const int mask = (length - 1);
-
     assert(h != NULL);
     assert(val != HASHSET_NULL);
 
@@ -78,7 +77,6 @@ int hashset_contains(struct hashset *h, int val)
     int hash = 0;
     const int length = (1 << h->length_log2);
     const int mask = ((1 << h->length_log2) - 1);
-
     assert(val != HASHSET_NULL);
     assert(h != NULL);
 
