@@ -16,27 +16,27 @@
 int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 {
     int nevents = 0;
-    int epfdlocal;
+    int epfdlocal = epfd;
     timeout = 10;
     struct timespec abstime = {0, timeout * 1000000};
 
     // Check for reentrancy.
-    if (__epoll_reent_guard)
-    {
-        errno = EBADF;
-        return -1;
-    }
+    // if (__epoll_reent_guard)
+    // {
+    //     errno = EBADF;
+    //     return -1;
+    // }
 
     // Check if epoll descriptor is managed by Demikernel.
-    if ((epfdlocal = queue_man_get_demikernel_epfd(epfd)) == -1)
-    {
-        TRACE("epoll_wait not managed by demikernel epfd=%d ", epfd);
-        errno = EBADF;
-        return -1;
-    }
+    // if ((epfdlocal = queue_man_get_demikernel_epfd(epfd)) == -1)
+    // {
+    //     TRACE("epoll_wait not managed by demikernel epfd=%d ", epfd);
+    //     errno = EBADF;
+    //     return -1;
+    // }
 
     //TRACE("epfd=%d, events=%p, maxevents=%d, timeout=%d", epfd, (void *)events, maxevents, timeout);
-
+    
     // Traverse events.
     for (int i = 0; i < MAX_EVENTS && i < maxevents; i++)
     {

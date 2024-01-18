@@ -15,6 +15,7 @@ static struct
 {
     struct hashset *hashset_fds;
     struct hashtable *hashtable_demifds;
+    struct hashtable *hashtable_demiepollfds;
     struct hashset *hashset_ipv6_fds;
     struct hashset *hashset_listening_fds;
 
@@ -24,7 +25,7 @@ static struct
     // Hashes FDs -> EPFDs.
     struct hashtable *hashtable_fds;
 
-} queues = {NULL, NULL, NULL, NULL, NULL, NULL};
+} queues = {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 void queue_man_init(void)
 {
@@ -32,6 +33,7 @@ void queue_man_init(void)
     queues.hashset_listening_fds = hashset_create(10);
     queues.hashtable_epfds = hashtable_create(10);
     queues.hashtable_demifds = hashtable_create(10);
+    queues.hashtable_demiepollfds = hashtable_create(10);
     queues.hashtable_fds = hashtable_create(10);
     queues.hashset_ipv6_fds = hashset_create(10);
 
@@ -98,6 +100,22 @@ void queue_man_unlink_fd_demifd(int fd)
 {
     hashtable_remove(queues.hashtable_demifds, fd);
 }
+
+int queue_man_link_fd_demiepollfd(int epollfd, int demiepollfd)
+{
+    return (hashtable_insert(queues.hashtable_demiepollfds, epollfd, demiepollfd));
+}
+
+int queue_man_query_fd_demiepollfd(int epollfd)
+{
+    return (hashtable_get(queues.hashtable_demiepollfds, epollfd));
+}
+
+void queue_man_unlink_fd_demiepollfd(int epollfd)
+{
+    hashtable_remove(queues.hashtable_demiepollfds, epollfd);
+}
+
 
 int queue_man_query_fd_pollable(int fd)
 {

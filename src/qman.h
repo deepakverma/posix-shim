@@ -26,6 +26,9 @@ extern struct demi_event *queue_man_get_pop_result(int qd);
 extern int queue_man_link_fd_demifd(int fd, int epfd);
 extern void queue_man_unlink_fd_demifd(int fd);
 extern int queue_man_query_fd_demifd(int fd);
+extern int queue_man_link_fd_demiepollfd(int epollfd, int demiepfd);
+extern void queue_man_unlink_fd_demiepollfd(int epollfd);
+extern int queue_man_query_fd_demiepollfd(int epollfd);
 
 
 #endif // _QMAN_H_

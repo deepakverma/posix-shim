@@ -13,6 +13,7 @@
 #include "qman.h"
 #include <string.h>
 
+
 // Control-path hooks.
 extern int __demi_init(void);
 // Control-path hooks.
@@ -109,6 +110,7 @@ void init_functions() {
             assert((libc_listen = dlsym(RTLD_NEXT, "listen")) != NULL);
             assert((libc_fcntl = dlsym(RTLD_NEXT, "fcntl")) != NULL);
             assert((libc_epoll_wait = dlsym(RTLD_NEXT, "epoll_wait")) != NULL);
+            assert((libc_accept = dlsym(RTLD_NEXT, "accept")) != NULL);
             reentrant_init = 1;
             __demi_init();
             reentrant_init = 0;
@@ -128,6 +130,7 @@ int socket(int domain, int type, int protocol) {
 }
 
 int fcntl(int fd, int cmd, ... /* arg */) {
+    TRACE("fcntl %d", fd);
     int demifd;
     if((demifd = queue_man_query_fd_demifd(fd)) != -1)
     {
@@ -154,21 +157,26 @@ int fcntl(int fd, int cmd, ... /* arg */) {
 //     return libc_epoll_create(size);
 // }
 
-__thread int epoll_ctl_reentrant = 0;
+__thread int reentrant = 0;
+// __thread int epoll_ctl_reentrant = 0;
+// __thread int accept_reentrant = 0;
+// __thread int read_reentrant = 0;
+
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event) {
     init_functions();
     assert(libc_epoll_ctl != NULL);
-    if(!epoll_ctl_reentrant) {
+    if(!reentrant) {
         int demifd;
         if((demifd = queue_man_query_fd_demifd(fd)) != -1)
         {
             // register the fd with demiepoll
-            int demiepollfd = queue_man_get_demikernel_epfd(fd);
-            int demifd = queue_man_query_fd_demifd(fd);
-            TRACE("epoll_ctl sockfd=%d, demifd=%d demiepollfd=%d", fd, demifd, demiepollfd);
-            epoll_ctl_reentrant= 1;
+            int demiepollfd = queue_man_get_demikernel_epfd(demifd);
+            TRACE("epoll_ctl detected demikernel fd, epfd=%d sockfd=%d, demifd=%d demiepollfd=%d", epfd, fd, demifd, demiepollfd);
+            reentrant= 1;
             int ret = __demi_epoll_ctl(demiepollfd, op, demifd, event);
-            epoll_ctl_reentrant = 0;
+            reentrant = 0;
+            // store mapping of epfd to demikernel epfd
+            queue_man_link_fd_demiepollfd(epfd, demiepollfd);
             TRACE("epoll_ctl ret=%d", ret);
             return ret;
         }
@@ -176,63 +184,80 @@ int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event) {
     return libc_epoll_ctl(epfd, op, fd, event);
 }
 
-__thread int epoll_wait_reentrant = 0;
+//__thread int epoll_wait_reentrant = 0;
 int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout){
     init_functions();
     assert(libc_epoll_wait != NULL);
     int demiepfd;
-    if(!epoll_wait_reentrant) {
-        if((demiepfd = queue_man_get_demikernel_epfd(epfd)) != -1)
+    if(!reentrant) {
+        if((demiepfd = queue_man_query_fd_demiepollfd(epfd)) != -1)
         {
-            epoll_wait_reentrant = 1;
+            TRACE("detected demikernel, waiting demiepdf=%d", demiepfd);
+            reentrant = 1;
             __demi_epoll_wait(demiepfd, events, maxevents, timeout);
-            epoll_wait_reentrant = 0;
+            reentrant = 0;
         }
     }
     return libc_epoll_wait(epfd, events, maxevents, timeout);
 }
 
-__thread int read_reentrant = 0;
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
+    TRACE("Accept sockfd=%d reentrant=%d", sockfd, reentrant);
+    init_functions();
+    assert(libc_accept != NULL);
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(sockfd)) != -1) {
+            reentrant = 1;
+            __demi_accept(demifd, addr, addrlen);
+            reentrant = 0;
+        }
+    }
+    return libc_accept(sockfd, addr, addrlen);
+}
+
 int read(int fd, void *buf, size_t count){
+    TRACE("read fd=%d", fd);
     init_functions();
     assert(libc_read != NULL);
-    if(!read_reentrant) {
+    if(!reentrant) {
         int demifd;
         if((demifd = queue_man_query_fd_demifd(fd)) != -1)
         {
-            read_reentrant = 1;
+            reentrant = 1;
             int ret = __demi_read(demifd, buf, count);
-            read_reentrant = 0;
+            reentrant = 0;
             return ret;
         }
     }
+    TRACE("read completed");
     return libc_read(fd, buf, count);
 }
 
-__thread int write_reentrant = 0;
+//__thread int write_reentrant = 0;
 int write(int fd, void *buf, size_t count){
     init_functions();
     assert(libc_write != NULL);
-    if(!write_reentrant) {
+    if(!reentrant) {
         int demifd;
         if((demifd = queue_man_query_fd_demifd(fd)) != -1)
         {
-            write_reentrant = 1;
+            reentrant = 1;
             int ret = __demi_write(demifd, buf, count);
-            write_reentrant = 0;
+            reentrant = 0;
             return ret;
         }
     }
     return libc_write(fd, buf, count);
 }
 
-__thread int bindreentrant = 0;
+//__thread int bindreentrant = 0;
 int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen){
-    TRACE("bind%d %d", bindreentrant, sockfd);
-    if(!bindreentrant) {
-        init_functions();
-        assert(libc_bind != NULL);
+    TRACE("bind%d %d", reentrant, sockfd);
+    init_functions();
 
+    if(!reentrant) {
+        assert(libc_bind != NULL);
         struct sockaddr_in *ipv4 = (struct sockaddr_in *)addr;
         char ipAddr[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &(ipv4->sin_addr), ipAddr, INET_ADDRSTRLEN);
@@ -255,32 +280,41 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen){
             local_addr.sin_port = htons(port);
 
             // bind demi socket
-            bindreentrant = 1;
+            reentrant = 1;
             int ret = __demi_bind(demifd,(struct sockaddr *) &local_addr, sizeof(local_addr));
-            bindreentrant = 0;
-            queue_man_link_fd_demifd(sockfd, demifd);
-
             // create demi epoll
             int demiepoll = __demi_epoll_create(MAX_EVENTS);
+            reentrant = 0;
+
+            queue_man_link_fd_demifd(sockfd, demifd);
             // mapping of demifd todemiepoll
             queue_man_register_linux_epfd(demifd, demiepoll);
+
             return ret;
         }
     } else {
         TRACE("reentrantbind with sockfd =%d", sockfd);
     }
+    TRACE("bind completed");
     return libc_bind(sockfd, addr, addrlen);
 }
 
 int listen(int sockfd, int backlog) {
+    TRACE("listen");
     init_functions();
     assert(libc_listen != NULL);
-    int demifd;
-    if((demifd = queue_man_query_fd_demifd(sockfd)) != -1)
-    {
-        TRACE("demifd %d", demifd);
-        return __demi_listen(demifd, backlog);
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(sockfd)) != -1)
+        {
+            TRACE("demifd %d", demifd);
+            reentrant = 1;
+            int ret = __demi_listen(demifd, backlog);
+            reentrant = 0;
+            return ret;
+        }
     }
+    TRACE("listen completed");
     return libc_listen(sockfd, backlog);
 }
 

@@ -47,6 +47,7 @@ static int __do_demi_epoll_ctl_add(int epfd, int fd, struct epoll_event *event)
 
                 if (queue_man_is_listen_fd(fd))
                 {
+                    TRACE("accepting on this socket");
                     assert(demi_accept(&qt, fd) == 0);
                 }
                 else
@@ -156,12 +157,12 @@ int __demi_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
     UNUSED(event);
 
     // Check for reentrancy.
-    if (__epoll_reent_guard)
-    {
-        TRACE("epfd=%d, op=%d, fd=%d, event=%p", epfd, op, fd, (void *)event);
-        errno = EBADF;
-        return -1;
-    }
+    // if (__epoll_reent_guard)
+    // {
+    //     TRACE("epfd=%d, op=%d, fd=%d, event=%p", epfd, op, fd, (void *)event);
+    //     errno = EBADF;
+    //     return -1;
+    // }
 
     TRACE("epfd=%d, op=%d, fd=%d, event=%p", epfd, op, fd, (void *)event);
 
@@ -174,12 +175,12 @@ int __demi_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
         return -1;
     }
 
-    if ((epfd = queue_man_get_demikernel_epfd(epfd)) == -1)
-    {
-        TRACE("epfd not found");
-        errno = EBADF;
-        return -1;
-    }
+    // if ((epfd = queue_man_get_demikernel_epfd(epfd)) == -1)
+    // {
+    //     TRACE("epfd not found");
+    //     errno = EBADF;
+    //     return -1;
+    // }
 
     // Check for invalid epoll file descriptor.
     if ((epfd < 0) || (epfd >= EPOLL_MAX_FDS))
