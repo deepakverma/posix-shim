@@ -95,6 +95,8 @@ extern int queue_man_set_accept_result(int qd, struct demi_event *ev);
 extern struct demi_event *queue_man_get_accept_result(int qd);
 extern int queue_man_set_pop_result(int qd, struct demi_event *ev);
 extern struct demi_event *queue_man_get_pop_result(int qd);
+extern int queue_man_query_ipv6_fd(int fd);
+extern int queue_man_register_ipv6_fd(int fd);
 
 
 extern void epoll_table_init(void);

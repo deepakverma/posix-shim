@@ -1,73 +1,20 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// NOTE: libc requires this for RTLD_NEXT.
 #define _GNU_SOURCE
-
-#include "epoll.h"
-#include "error.h"
-#include "qman.h"
-#include <assert.h>
-#include <dlfcn.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <dlfcn.h>
 #include <sys/socket.h>
-#include <sys/syscall.h>
-#include <unistd.h>
+#include <sys/epoll.h>
 #include <pthread.h>
-#include <stdatomic.h>
-#include <demi/wait.h>
-#include "utils.h"
+#include <sys/epoll.h>
+#include <assert.h>
+#include "log.h"
+#include <fcntl.h>
+#include <stdarg.h>
+#include <arpa/inet.h>
+#include "qman.h"
+#include <string.h>
 
-__thread int reentrant = 0;
-
-static int cached_linux_epfd = -1;
-
-static pthread_mutex_t demimutex = PTHREAD_MUTEX_INITIALIZER;
-//static pthread_mutex_t demimutex2 = PTHREAD_MUTEX_INITIALIZER;
-//static pthread_mutex_t demimutexsocketCreate = PTHREAD_MUTEX_INITIALIZER;
-//static pthread_mutex_t demimutexaccept = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t demiinterpose = PTHREAD_MUTEX_INITIALIZER;
-
-
-#define INTERPOSE_CALL(type, fn_libc, fn_demi, ...)                                                                    \
-{   TRACE("start"); assert(fn_libc != NULL);   \
-        /* TRACE("interpose locked");*/                                                                                     \
-        type ret = -1;    \
-        int returnvalue = fn_libc(__VA_ARGS__); \
-        TRACE("end"); \
-        return returnvalue;\
-        TRACE("rentrant=%d", reentrant);                                                                                            \
-        if ((!initialized) || (reentrant)) {                                                                            \
-            TRACE("interpose unlocked init=%d rentrant=%d", initialized, reentrant);\
-            int r = (fn_libc(__VA_ARGS__));                                                                             \
-            pthread_mutex_unlock(&demiinterpose); \
-            return r;\
-        }                                                                                                              \
-        init();                                                                                                        \
-                                                                                                                       \
-        int last_errno = errno;                                                                                        \
-                                                                                                                       \
-        reentrant = true;                                                                                              \
-        ret = fn_demi(__VA_ARGS__);                                                                                    \
-        reentrant = false;                                                                                             \
-                                                                                                                       \
-        if ((ret) == -1 && (errno == EBADF))                                                                           \
-        {                                                                                                              \
-            errno = last_errno;                                                                                        \
-            TRACE("interpose unlocked err=%d fallback to libc", errno);\
-            ret = fn_libc(__VA_ARGS__); \
-            TRACE("called libx"); \
-            pthread_mutex_unlock(&demiinterpose); return ret;\
-        }                                                                                                              \
-        pthread_mutex_unlock(&demiinterpose);  \
-        return ret;                                                                                                    \
-    }
-
+// Control-path hooks.
+extern int __demi_init(void);
 // Control-path hooks.
 extern int __demi_init(void);
 extern int __demi_socket(int domain, int type, int protocol);
@@ -105,406 +52,177 @@ extern int __demi_epoll_create1(int flags);
 extern int __demi_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
 extern int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
 
-// System calls that we interpose.
-int (*libc_socket)(int, int, int) = NULL;
-int (*libc_close)(int) = NULL;
-int (*libc_shutdown)(int, int) = NULL;
-int (*libc_bind)(int, const struct sockaddr *, socklen_t) = NULL;
-int (*libc_connect)(int, const struct sockaddr *, socklen_t) = NULL;
-int (*libc_listen)(int, int) = NULL;
-int (*libc_accept4)(int, struct sockaddr *, socklen_t *, int) = NULL;
-int (*libc_accept)(int, struct sockaddr *, socklen_t *) = NULL;
-int (*libc_getsockopt)(int, int, int, void *, socklen_t *) = NULL;
-int (*libc_setsockopt)(int, int, int, const void *, socklen_t) = NULL;
-int (*libc_getsockname)(int, struct sockaddr *, socklen_t *) = NULL;
-int (*libc_getpeername)(int, struct sockaddr *, socklen_t *) = NULL;
-ssize_t (*libc_read)(int, void *, size_t) = NULL;
-ssize_t (*libc_recv)(int, void *, size_t, int) = NULL;
-ssize_t (*libc_recvfrom)(int, void *, size_t, int, struct sockaddr *, socklen_t *) = NULL;
-ssize_t (*libc_recvmsg)(int, struct msghdr *, int) = NULL;
-ssize_t (*libc_readv)(int, const struct iovec *, int) = NULL;
-ssize_t (*libc_pread)(int, void *, size_t, off_t) = NULL;
-ssize_t (*libc_write)(int, const void *, size_t) = NULL;
-ssize_t (*libc_send)(int, const void *, size_t, int) = NULL;
-ssize_t (*libc_sendto)(int, const void *, size_t, int, const struct sockaddr *, socklen_t) = NULL;
-ssize_t (*libc_sendmsg)(int, const struct msghdr *, int) = NULL;
-ssize_t (*libc_writev)(int, const struct iovec *, int) = NULL;
-ssize_t (*libc_pwrite)(int, const void *, size_t, off_t) = NULL;
-int (*libc_epoll_create)(int) = NULL;
-int (*libc_epoll_create1)(int) = NULL;
-int (*libc_epoll_ctl)(int, int, int, struct epoll_event *) = NULL;
-int (*libc_epoll_wait)(int, struct epoll_event *, int, int) = NULL;
+// Mutex for thread safety during initialization
+pthread_mutex_t init_mutex = PTHREAD_MUTEX_INITIALIZER;
+// Flag to check if initialization is done
+int is_initialized = 0;
 
-bool initialized = false;
+// Function pointers for original system calls
+int (*libc_socket)(int, int, int);
+int (*libc_close)(int);
+int (*libc_shutdown)(int, int);
+int (*libc_bind)(int, const struct sockaddr *, socklen_t);
+int (*libc_connect)(int, const struct sockaddr *, socklen_t);
+int (*libc_listen)(int, int);
+int (*libc_accept4)(int, struct sockaddr *, socklen_t *, int);
+int (*libc_accept)(int, struct sockaddr *, socklen_t *);
+int (*libc_getsockopt)(int, int, int, void *, socklen_t *);
+int (*libc_setsockopt)(int, int, int, const void *, socklen_t);
+int (*libc_getsockname)(int, struct sockaddr *, socklen_t *);
+int (*libc_getpeername)(int, struct sockaddr *, socklen_t *);
+ssize_t (*libc_read)(int, void *, size_t);
+ssize_t (*libc_recv)(int, void *, size_t, int);
+ssize_t (*libc_recvfrom)(int, void *, size_t, int, struct sockaddr *, socklen_t *);
+ssize_t (*libc_recvmsg)(int, struct msghdr *, int);
+ssize_t (*libc_readv)(int, const struct iovec *, int);
+ssize_t (*libc_pread)(int, void *, size_t, off_t);
+ssize_t (*libc_write)(int, const void *, size_t);
+ssize_t (*libc_send)(int, const void *, size_t, int);
+ssize_t (*libc_sendto)(int, const void *, size_t, int, const struct sockaddr *, socklen_t);
+ssize_t (*libc_sendmsg)(int, const struct msghdr *, int);
+ssize_t (*libc_writev)(int, const struct iovec *, int);
+ssize_t (*libc_pwrite)(int, const void *, size_t, off_t);
+int (*libc_epoll_create)(int);
+int (*libc_epoll_create1)(int);
+int (*libc_epoll_ctl)(int, int, int, struct epoll_event *);
+int (*libc_epoll_wait)(int, struct epoll_event *, int, int);
+int (*libc_fcntl)(int fd, int cmd, ...);
 
-static void init(void)
-{
-    TRACE("init");
-    if (!initialized)
-        {
-        pthread_mutex_lock(&demimutex);
-        
-    if (!initialized)
-        {
-            TRACE("locked and init");
-            // pthread_mutexattr_t attr;
-            // pthread_mutexattr_init(&attr);
-            // pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-            // pthread_mutex_init(&demimutex2, &attr);            
-            // pthread_mutex_init(&demimutexsocketCreate, &attr);     
-            // pthread_mutex_init(&demimutexaccept, &attr);     
-            // pthread_mutex_init(&demiinterpose, &attr);     
-            assert((libc_socket = dlsym(RTLD_NEXT, "socket")) != NULL);
-            assert((libc_shutdown = dlsym(RTLD_NEXT, "shutdown")) != NULL);
-            assert((libc_bind = dlsym(RTLD_NEXT, "bind")) != NULL);
-            //assert((libc_connect = dlsym(RTLD_NEXT, "connect")) != NULL);
-            assert((libc_listen = dlsym(RTLD_NEXT, "listen")) != NULL);
-            //assert((libc_accept4 = dlsym(RTLD_NEXT, "accept4")) != NULL);
-            assert((libc_accept = dlsym(RTLD_NEXT, "accept")) != NULL);
-            //assert((libc_getsockopt = dlsym(RTLD_NEXT, "getsockopt")) != NULL);
-            //assert((libc_setsockopt = dlsym(RTLD_NEXT, "setsockopt")) != NULL);
-            //assert((libc_getsockname = dlsym(RTLD_NEXT, "getsockname")) != NULL);
-            //assert((libc_getpeername = dlsym(RTLD_NEXT, "getpeername")) != NULL);
-            assert((libc_read = dlsym(RTLD_NEXT, "read")) != NULL);
-            //assert((libc_recv = dlsym(RTLD_NEXT, "recv")) != NULL);
-            //assert((libc_recvfrom = dlsym(RTLD_NEXT, "recvfrom")) != NULL);
-            //assert((libc_recvmsg = dlsym(RTLD_NEXT, "recvmsg")) != NULL);
-            //assert((libc_readv = dlsym(RTLD_NEXT, "readv")) != NULL);
-            //assert((libc_pread = dlsym(RTLD_NEXT, "pread")) != NULL);
-            assert((libc_write = dlsym(RTLD_NEXT, "write")) != NULL);
-            //assert((libc_send = dlsym(RTLD_NEXT, "send")) != NULL);
-            //assert((libc_sendto = dlsym(RTLD_NEXT, "sendto")) != NULL);
-            //assert((libc_sendmsg = dlsym(RTLD_NEXT, "sendmsg")) != NULL);
-            //assert((libc_writev = dlsym(RTLD_NEXT, "writev")) != NULL);
-            //assert((libc_pwrite = dlsym(RTLD_NEXT, "pwrite")) != NULL);
+__thread int reentrant_init = 0;
+// Initialization function with mutex
+void init_functions() {
+    if (!is_initialized)
+    {
+        if(reentrant_init) return;
+        pthread_mutex_lock(&init_mutex);
+        TRACE("init");
+        if (!is_initialized) {
+            assert((libc_socket = dlsym(RTLD_NEXT, "socket")) !=NULL);
             assert((libc_close = dlsym(RTLD_NEXT, "close")) != NULL);
-            assert((libc_epoll_create = dlsym(RTLD_NEXT, "epoll_create")) != NULL);
-            assert((libc_epoll_create1 = dlsym(RTLD_NEXT, "epoll_create1")) != NULL);
-            assert((libc_epoll_ctl = dlsym(RTLD_NEXT, "epoll_ctl")) != NULL);
-            assert((libc_epoll_wait = dlsym(RTLD_NEXT, "epoll_wait")) != NULL);
-            TRACE("calling demi_init");
-           //if (__demi_init() != 0)
-            //    abort();
-            TRACE("initialized");
-            initialized = true;
-            //atomic_store(&initialized, true);
+            assert((libc_shutdown = dlsym(RTLD_NEXT, "shutdown"))  != NULL);
+            assert((libc_epoll_create1 = dlsym(RTLD_NEXT, "epoll_create1"))  != NULL);
+            assert((libc_epoll_create = dlsym(RTLD_NEXT, "epoll_create"))  != NULL);
+            assert((libc_epoll_ctl = dlsym(RTLD_NEXT, "epoll_ctl"))  != NULL);
+            assert((libc_read = dlsym(RTLD_NEXT, "read"))  != NULL);
+            assert((libc_write = dlsym(RTLD_NEXT, "write"))  != NULL);
+            assert((libc_bind = dlsym(RTLD_NEXT, "bind")) != NULL);
+            assert((libc_listen = dlsym(RTLD_NEXT, "listen")) != NULL);
+            assert((libc_fcntl = dlsym(RTLD_NEXT, "fcntl")) != NULL);
+            reentrant_init = 1;
+            __demi_init();
+            reentrant_init = 0;
+            is_initialized = 1;
         }
-        pthread_mutex_unlock(&demimutex);
-        TRACE("init completed");
-        }
-}
 
-int close(int sockfd)
-{
-    init();
-    INTERPOSE_CALL(int, libc_close, __demi_close, sockfd);
-}
-
-int shutdown(int sockfd, int how)
-{
-    init();
-    INTERPOSE_CALL(int, libc_shutdown, __demi_shutdown, sockfd, how);
-}
-
-int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
-{
-    init();
-    INTERPOSE_CALL(int, libc_bind, __demi_bind, sockfd, addr, addrlen);
-}
-
-// int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
-// {
-//     init();
-//     INTERPOSE_CALL(int, libc_connect, __demi_connect, sockfd, addr, addrlen);
-// }
-
-int listen(int sockfd, int backlog)
-{
-    init();
-    INTERPOSE_CALL(int, libc_listen, __demi_listen, sockfd, backlog);
-}
-
-// int accept4(int sockfd, struct sockaddr *addr, socklen_t *addrlen, int flags)
-// {
-//     libc_accept4 = dlsym(RTLD_NEXT, "accept4");
-//     UNUSED(flags);
-//     return accept4(sockfd, addr, addrlen, flags);
-//     //INTERPOSE_CALL(int, libc_accept4, __demi_accept4, sockfd, addr, addrlen, flags);
-// }
-
-__thread bool accept_reentrant = false;
-int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
-{
-    init();
-    return libc_accept(sockfd, addr, addrlen);
-//    pthread_mutex_lock(&demimutexaccept);
-    //TRACE("reentrant %d sockfd=%d", reentrant, sockfd);
-
-     // Check if this socket descriptor is managed by Demikernel.
-    // If that is not the case, then fail to let the Linux kernel handle it.
-    if (accept_reentrant || !queue_man_query_fd(sockfd))
-    {
- //           pthread_mutex_unlock(&demimutexaccept);
-            //TRACE("returning libc accept reentrant = %d", reentrant);
-            //if(!reentrant) abort();
-            return libc_accept(sockfd, addr, addrlen);
+        pthread_mutex_unlock(&init_mutex);
     }
-
-    TRACE("sockfd=%d, addr=%p, addrlen=%p", sockfd, (void *)addr, (void *)addrlen);
-
-    // Check if socket descriptor is registered on an epoll instance.
-    if (queue_man_query_fd_pollable(sockfd))
-    {
-        struct demi_event *ev = NULL;
-
-        // Check if the accept operation has completed.
-        if ((ev = queue_man_get_accept_result(sockfd)) != NULL)
-        {
-            int newqd = -1;
-
-            assert(ev->used == 1);
-            assert(ev->qt == (demi_qtoken_t)-1);
-            assert(ev->sockqd == sockfd);
-
-            // Extract the I/O queue descriptor that refers to the new connection,
-            // and registers it as one managed by Demikernel.
-            newqd = ev->qr.qr_value.ares.qd;
-            newqd = queue_man_register_fd(newqd);
-
-            // Re-issue accept operation.
-            __epoll_reent_guard = 1;
-            assert(demi_accept(&ev->qt, ev->sockqd) == 0);
-            __epoll_reent_guard = 0;
- //           pthread_mutex_unlock(&demimutexaccept);
-            return (newqd);
-        }
-        // The accept operation has not yet completed.
-        errno = EWOULDBLOCK;
-  //      pthread_mutex_unlock(&demimutexaccept);
-        return (-1);
-    }
-    // accept client connection on the listening socket that's not registered with epoll
-    TRACE("managed by demikernel but not epoll");
-    demi_qtoken_t qt;
-    demi_qresult_t qr = {0};
-    accept_reentrant = true;
-    assert(demi_accept(&qt, sockfd) == 0);
-    TRACE("demi wait");
-    demi_wait(&qr, qt, NULL);
-    accept_reentrant = false;
-   // pthread_mutex_unlock(&demimutexaccept);
-    int newqd = qr.qr_value.ares.qd;
-    newqd = queue_man_register_fd(newqd);
-    TRACE("accept returning qd=%d , hash qd = %d", qr.qr_value.ares.qd, newqd);
-    return newqd;
 }
 
-// int getsockopt(int sockfd, int level, int optname, void *optval, socklen_t *optlen)
-// {
-//     libc_getsockopt = dlsym(RTLD_NEXT, "getsockopt");
-//     INTERPOSE_CALL(int, libc_getsockopt, __demi_getsockopt, sockfd, level, optname, optval, optlen);
-// }
-
-// int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t optlen)
-// {
-//     libc_setsockopt = dlsym(RTLD_NEXT, "setsockopt");
-//     INTERPOSE_CALL(int, libc_setsockopt, __demi_setsockopt, sockfd, level, optname, optval, optlen);
-// }
-
-// int getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
-// {
-//     libc_getsockname = dlsym(RTLD_NEXT, "getsockname");
-//     INTERPOSE_CALL(int, libc_getsockname, __demi_getsockname, sockfd, addr, addrlen);
-// }
-
-// int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
-// {
-//     libc_getpeername = dlsym(RTLD_NEXT, "getpeername");
-//     INTERPOSE_CALL(int, libc_getpeername, __demi_getpeername, sockfd, addr, addrlen);
-// }
-
-ssize_t read(int sockfd, void *buf, size_t count)
-{
-    init();
-    TRACE("sockfd=%d", sockfd);
-    INTERPOSE_CALL(ssize_t, libc_read, __demi_read, sockfd, buf, count);
-}
-
-// ssize_t recv(int sockfd, void *buf, size_t len, int flags)
-// {
-//     libc_recv = dlsym(RTLD_NEXT, "recv");
-//     INTERPOSE_CALL(ssize_t, libc_recv, __demi_recv, sockfd, buf, len, flags);
-// }
-
-// ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen)
-// {
-//     libc_recvfrom = dlsym(RTLD_NEXT, "recvfrom");
-//     INTERPOSE_CALL(ssize_t, libc_recvfrom, __demi_recvfrom, sockfd, buf, len, flags, src_addr, addrlen);
-// }
-
-// ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags)
-// {
-//     libc_recvmsg = dlsym(RTLD_NEXT, "recvmsg");
-//     INTERPOSE_CALL(ssize_t, libc_recvmsg, __demi_recvmsg, sockfd, msg, flags);
-// }
-
-// ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt)
-// {
-//     libc_readv = dlsym(RTLD_NEXT, "readv");
-//     INTERPOSE_CALL(ssize_t, libc_readv, __demi_readv, sockfd, iov, iovcnt);
-// }
-
-ssize_t write(int sockfd, const void *buf, size_t count)
-{
-    init();
-    INTERPOSE_CALL(ssize_t, libc_write, __demi_write, sockfd, buf, count);
-}
-
-// ssize_t send(int sockfd, const void *buf, size_t len, int flags)
-// {
-//     libc_send = dlsym(RTLD_NEXT, "send");
-//     INTERPOSE_CALL(ssize_t, libc_send, __demi_send, sockfd, buf, len, flags);
-// }
-
-// ssize_t sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen)
-// {
-//     libc_sendto = dlsym(RTLD_NEXT, "sendto");
-//     INTERPOSE_CALL(ssize_t, libc_sendto, __demi_sendto, sockfd, buf, len, flags, dest_addr, addrlen);
-// }
-
-// ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags)
-// {
-//     libc_sendmsg = dlsym(RTLD_NEXT, "sendmsg");
-//     INTERPOSE_CALL(ssize_t, libc_sendmsg, __demi_sendmsg, sockfd, msg, flags);
-// }
-
-// ssize_t writev(int sockfd, const struct iovec *iov, int iovcnt)
-// {
-//     libc_writev = dlsym(RTLD_NEXT, "writeev");
-//     INTERPOSE_CALL(ssize_t, libc_writev, __demi_writev, sockfd, iov, iovcnt);
-// }
-
-// ssize_t pread(int sockfd, void *buf, size_t count, off_t offset)
-// {
-//     libc_pread = dlsym(RTLD_NEXT, "pread");
-//     INTERPOSE_CALL(ssize_t, libc_pread, __demi_pread, sockfd, buf, count, offset);
-// }
-
-// ssize_t pwrite(int sockfd, const void *buf, size_t count, off_t offset)
-// {
-//     libc_pwrite = dlsym(RTLD_NEXT, "pwrite");
-//     INTERPOSE_CALL(ssize_t, libc_pwrite, __demi_pwrite, sockfd, buf, count, offset);
-// }
-
-int epoll_create1(int flags)
-{
-    //init();
-    libc_epoll_create1 = dlsym(RTLD_NEXT, "epoll_create1");
-    return libc_epoll_create1(flags);
-    UNUSED(flags);
-    //assert(flags == 0);
-    return epoll_create(MAX_EVENTS);
-}
-
-int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
-{
-    libc_epoll_ctl = dlsym(RTLD_NEXT, "epoll_ctl");
-    INTERPOSE_CALL(int, libc_epoll_ctl, __demi_epoll_ctl, epfd, op, fd, event);
-}
-
-int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
-{
-    libc_epoll_wait = dlsym(RTLD_NEXT, "epoll_wait");
-    return libc_epoll_wait(epfd, events, maxevents, timeout);
-    INTERPOSE_CALL(int, libc_epoll_wait, __demi_epoll_wait, epfd, events, maxevents, timeout);
-}
-
-__thread bool socket_reentrant = false;
-int socket(int domain, int type, int protocol)
-{
-    libc_socket = dlsym(RTLD_NEXT, "socket");
+// Override system calls
+int socket(int domain, int type, int protocol) {
+    init_functions();
+    assert(libc_socket != NULL);
+    if(domain == AF_INET6) return -1; // force libevent to create IPv4
     return libc_socket(domain, type, protocol);
-    //pthread_mutex_lock(&demimutexsocketCreate);
-    TRACE("domain = %d, type=%d", domain, type);
-    int ret = -1;
-    TRACE("init called from socket");
-    //init();
-    TRACE("init completed from socket %d", initialized);
-    if ((!initialized) || (socket_reentrant) || domain == AF_UNIX || domain == AF_INET || domain == AF_INET6)
-    {
-        TRACE("init=%d,reentrant=%d,domain=%d", initialized, socket_reentrant, domain);
-      //  pthread_mutex_unlock(&demimutexsocketCreate);
-        return (libc_socket(domain, type, protocol));
+}
+
+int fcntl(int fd, int cmd, ... /* arg */) {
+    if(fd>=500) {
+        return 1;
     }
-    if(type & SOCK_STREAM) type = SOCK_STREAM;
-    if(type & SOCK_DGRAM) type = SOCK_DGRAM;
-    int last_errno = errno;
-    socket_reentrant = true;
-    ret = __demi_socket(domain, type, protocol);
-    socket_reentrant = false;
-    TRACE("demikernel socket fd=%d", ret);
-    if ((ret) == -1 && (errno == EBADF))
-    {
-        errno = last_errno;
-        //pthread_mutex_unlock(&demimutexsocketCreate);
-        return (libc_socket(domain, type, protocol));
-    }
-    //pthread_mutex_unlock(&demimutexsocketCreate);
-    return ret;
+    init_functions();
+     va_list args;
+    va_start(args, cmd);
+    int result = libc_fcntl(fd, cmd, va_arg(args, long));  // Assuming the argument is 'long'
+    va_end(args);
+    return result;
 }
 
 
-int epoll_create(int size)
-{
-    libc_epoll_create = dlsym(RTLD_NEXT, "epoll_create");
+int epoll_create1(int flag) {
+    init_functions();
+    assert(libc_epoll_create1 != NULL);
+    return libc_epoll_create1(flag);
+}
+
+int epoll_create(int size) {
+    init_functions();
+    assert(libc_epoll_create != NULL);
     return libc_epoll_create(size);
-    //pthread_mutex_lock(&demimutex2);
-    // if(cached_linux_epfd != -1)
-    // {
-    //  //   pthread_mutex_unlock(&demimutex3);
-    //     TRACE("returning cached %d", cached_linux_epfd);
-    //     return cached_linux_epfd;
-    // }
+}
 
-    int ret = -1;
-    int linux_epfd = -1;
-    int demikernel_epfd = -1;
-    TRACE("init called from epoll_Create");
-    init();
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event) {
+    init_functions();
+    assert(libc_epoll_ctl != NULL);
+    return libc_epoll_ctl(epfd, op, fd, event);
+}
 
-    // Check if size argument is valid.
-    // if (size < 0)
-    // {
-    //     errno = EINVAL;
-    //     //pthread_mutex_unlock(&demimutex2);
-    //     return -1;
-    // }
+int read(int fd, void *buf, size_t count){
+    init_functions();
+    assert(libc_read != NULL);
+    return libc_read(fd, buf, count);
+}
 
-    // First, create epoll on kernel side.
-    if ((ret = libc_epoll_create(size)) == -1)
-    {
-        ERROR("epoll_create() failed - %s", strerror(errno));
-       // pthread_mutex_unlock(&demimutex2);
-        return (ret);
+int write(int fd, void *buf, size_t count){
+    init_functions();
+    assert(libc_write != NULL);
+    return libc_write(fd, buf, count);
+}
+
+__thread int bindreentrant = 0;
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen){
+    TRACE("bind%d %d", bindreentrant, sockfd);
+    if(!bindreentrant) {
+        init_functions();
+        assert(libc_bind != NULL);
+
+        struct sockaddr_in *ipv4 = (struct sockaddr_in *)addr;
+        char ipAddr[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(ipv4->sin_addr), ipAddr, INET_ADDRSTRLEN);
+        TRACE("IPv4 Address: %s, Port: %d\n", ipAddr, ntohs(ipv4->sin_port));
+
+        int port = 15476;
+        // hack to create demikernel socket mapping
+        if(ntohs(ipv4->sin_port) == port)
+        {
+            TRACE("detected port");
+            int demifd = __demi_socket(AF_INET, SOCK_STREAM, 0);
+            TRACE("created demikernel socket demi=%d libc=%d",demifd, sockfd);
+            queue_man_register_fd(demifd);
+
+            // override address as demikernel cannot bind to wildcard address
+            struct sockaddr_in local_addr;
+            memset(&local_addr, 0, sizeof(local_addr));
+            local_addr.sin_family = AF_INET;
+            local_addr.sin_addr.s_addr = inet_addr("172.28.0.5");  // Specific local IPv4 address
+            local_addr.sin_port = htons(port);
+
+            bindreentrant = 1;
+            int ret = __demi_bind(demifd,(struct sockaddr *) &local_addr, sizeof(local_addr));
+            bindreentrant = 0;
+            queue_man_link_fd_demifd(sockfd, demifd);
+            return ret;
+        }
+    } else {
+        TRACE("reentrantbind with sockfd =%d", sockfd);
     }
 
-    linux_epfd = ret;
-    TRACE("epoll_create epfd=%d", linux_epfd);
-    //abort();
-    return linux_epfd;
-    int last_errno = errno;
-    if ((ret = __demi_epoll_create(size)) == -1 && errno == EBADF)
-    {
-        errno = last_errno;
-        //pthread_mutex_unlock(&demimutex2);
-        return linux_epfd;
-    }
+    return libc_bind(sockfd, addr, addrlen);
+}
 
-    demikernel_epfd = ret;
+int listen(int sockfd, int backlog) {
+    init_functions();
+    assert(libc_listen != NULL);
+    // int demifd;
+    // if((demifd = queue_man_query_fd_demifd(sockfd)))
+    // {
+    //     return __demi_listen(demifd, backlog);
+    // }
+    return libc_listen(sockfd, backlog);
+}
 
-    queue_man_register_linux_epfd(linux_epfd, demikernel_epfd);
-    cached_linux_epfd = linux_epfd;
-    TRACE("linuxepfd=%d demikernelepfd=%d", cached_linux_epfd, demikernel_epfd);
-    //pthread_mutex_unlock(&demimutex2);
-    return linux_epfd;
+int close(int fd) {
+    init_functions();
+    assert(libc_close != NULL);
+    return libc_close(fd);
 }

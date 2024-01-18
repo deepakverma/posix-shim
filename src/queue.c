@@ -14,6 +14,8 @@ struct hashtable *pop_result = NULL;
 static struct
 {
     struct hashset *hashset_fds;
+    struct hashtable *hashtable_demifds;
+    struct hashset *hashset_ipv6_fds;
     struct hashset *hashset_listening_fds;
 
     // Hashes Linux EPFds -> Demikernel EPFDs.
@@ -22,14 +24,16 @@ static struct
     // Hashes FDs -> EPFDs.
     struct hashtable *hashtable_fds;
 
-} queues = {NULL, NULL, NULL, NULL};
+} queues = {NULL, NULL, NULL, NULL, NULL, NULL};
 
 void queue_man_init(void)
 {
     queues.hashset_fds = hashset_create(10);
     queues.hashset_listening_fds = hashset_create(10);
     queues.hashtable_epfds = hashtable_create(10);
+    queues.hashtable_demifds = hashtable_create(10);
     queues.hashtable_fds = hashtable_create(10);
+    queues.hashset_ipv6_fds = hashset_create(10);
 
     accept_result = hashtable_create(10);
     pop_result = hashtable_create(10);
@@ -50,6 +54,16 @@ void queue_man_remove_fd(int fd)
     hashset_remove(queues.hashset_fds, fd);
 }
 
+int queue_man_query_ipv6_fd(int fd)
+{
+    return (hashset_contains(queues.hashset_ipv6_fds, fd));
+}
+
+int queue_man_register_ipv6_fd(int fd)
+{
+    return (hashset_insert(queues.hashset_ipv6_fds, fd));
+}
+
 int queue_man_register_listen_fd(int fd)
 {
     return (hashset_insert(queues.hashset_listening_fds, fd));
@@ -68,6 +82,21 @@ int queue_man_link_fd_epfd(int fd, int epfd)
 void queue_man_unlink_fd_epfd(int fd)
 {
     hashtable_remove(queues.hashtable_fds, fd);
+}
+
+int queue_man_link_fd_demifd(int fd, int demifd)
+{
+    return (hashtable_insert(queues.hashtable_demifds, fd, demifd));
+}
+
+int queue_man_query_fd_demifd(int fd)
+{
+    return (hashtable_get(queues.hashtable_demifds, fd));
+}
+
+void queue_man_unlink_fd_demifd(int fd)
+{
+    hashtable_remove(queues.hashtable_demifds, fd);
 }
 
 int queue_man_query_fd_pollable(int fd)

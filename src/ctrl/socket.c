@@ -15,6 +15,7 @@
  *
  * @return This function returns the result value of the underlying Demikernel system call.
  */
+
 int __demi_socket(int domain, int type, int protocol)
 {
     int qd = -1;
@@ -36,8 +37,8 @@ int __demi_socket(int domain, int type, int protocol)
         // The underlying Demikernel system call succeeded.
         // Therefore, register this socket descriptor as one managed by Demikernel.
         TRACE("registered socket %d", qd);
-        ret = queue_man_register_fd(qd);
+        //ret = queue_man_register_fd(qd);
     }
 
-    return (ret);
+    return (qd);
 }
