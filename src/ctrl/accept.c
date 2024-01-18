@@ -66,24 +66,7 @@ int __demi_accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
         errno = EWOULDBLOCK;
         return (-1);
     }
-    // accept client connection on the listening socket that's not registered with epoll
-    TRACE("managed by demikernel but not epoll");
-    demi_qtoken_t qt;
-    demi_qresult_t qr = {0};
-
-    assert(demi_accept(&qt, sockfd) == 0);
-    demi_wait(&qr, qt, NULL);
-    return qr.qr_value.ares.qd;
-    // for (int i = 0; i < MAX_EVENTS && i < 512; i++)
-    // {
-    //     struct demi_event *ev = epoll_get_event(500, i);
-    //     if ((ev->used) && (ev->qt != (demi_qtoken_t)-1))
-    //     {
-    //         queue_man_register_fd(sockfd);
-    //     }
-    // }
-    // TODO: Hook in demi_accept().
-    UNIMPLEMETED("accept() currently works only on epoll mode");
+     UNIMPLEMETED("accept() currently works only on epoll mode");
 }
 
 /**

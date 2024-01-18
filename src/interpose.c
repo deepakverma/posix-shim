@@ -192,10 +192,11 @@ int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
     if(!reentrant) {
         if((demiepfd = queue_man_query_fd_demiepollfd(epfd)) != -1)
         {
-            TRACE("detected demikernel, waiting demiepdf=%d", demiepfd);
+            //TRACE("detected demikernel, waiting demiepdf=%d", demiepfd);
             reentrant = 1;
-            __demi_epoll_wait(demiepfd, events, maxevents, timeout);
+            int ret = __demi_epoll_wait(demiepfd, events, maxevents, timeout);
             reentrant = 0;
+            return ret;
         }
     }
     return libc_epoll_wait(epfd, events, maxevents, timeout);
@@ -209,8 +210,9 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
         int demifd;
         if((demifd = queue_man_query_fd_demifd(sockfd)) != -1) {
             reentrant = 1;
-            __demi_accept(demifd, addr, addrlen);
+            int ret = __demi_accept(demifd, addr, addrlen);
             reentrant = 0;
+            return ret;
         }
     }
     return libc_accept(sockfd, addr, addrlen);
