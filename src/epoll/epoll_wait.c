@@ -61,13 +61,16 @@ int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int t
             switch (ev->qr.qr_opcode)
             {
             case DEMI_OPC_ACCEPT: {
+                int acceptedsocket = ev->qr.qr_value.ares.qd;
+                int serversocket = queue_man_query_demitofds(ev->sockqd);
+                TRACE("accepted sockqd=%d acceptedsocket=%d originalservesocket=%d", ev->sockqd, acceptedsocket, serversocket);
+
                 // Fill in event.
                 events[nevents].events = ev->ev.events;
-                events[nevents].data.fd = ev->sockqd;
+                events[nevents].data.fd = serversocket;
                 nevents++;
+
                 // track the demifd
-                int acceptedsocket = ev->qr.qr_value.ares.qd;
-                TRACE("accepted sockqd=%d acceptedsocket=%d", ev->sockqd, acceptedsocket);
                 queue_man_link_fd_demifd(acceptedsocket, acceptedsocket);
                 // mapping of demifd todemiepoll
                  queue_man_register_linux_epfd(acceptedsocket, epfd);

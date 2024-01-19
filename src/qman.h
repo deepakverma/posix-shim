@@ -29,6 +29,9 @@ extern int queue_man_query_fd_demifd(int fd);
 extern int queue_man_link_fd_demiepollfd(int epollfd, int demiepfd);
 extern void queue_man_unlink_fd_demiepollfd(int epollfd);
 extern int queue_man_query_fd_demiepollfd(int epollfd);
+extern int queue_man_link_demitofds(int demifd, int fd);
+extern int queue_man_query_demitofds(int demifd);
+
 
 
 #endif // _QMAN_H_

@@ -18,6 +18,8 @@ static struct
     struct hashtable *hashtable_demiepollfds;
     struct hashset *hashset_ipv6_fds;
     struct hashset *hashset_listening_fds;
+    struct hashtable *hashtabe_fdstodemi;
+
 
     // Hashes Linux EPFds -> Demikernel EPFDs.
     struct hashtable *hashtable_epfds;
@@ -25,7 +27,7 @@ static struct
     // Hashes FDs -> EPFDs.
     struct hashtable *hashtable_fds;
 
-} queues = {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+} queues = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 void queue_man_init(void)
 {
@@ -33,8 +35,9 @@ void queue_man_init(void)
     queues.hashset_listening_fds = hashset_create(10);
     queues.hashtable_epfds = hashtable_create(10);
     queues.hashtable_demifds = hashtable_create(10);
-    queues.hashtable_demiepollfds = hashtable_create(10);
     queues.hashtable_fds = hashtable_create(10);
+    queues.hashtable_demiepollfds = hashtable_create(10);
+    queues.hashtabe_fdstodemi = hashtable_create(10);
     queues.hashset_ipv6_fds = hashset_create(10);
 
     accept_result = hashtable_create(10);
@@ -84,6 +87,22 @@ int queue_man_link_fd_epfd(int fd, int epfd)
 void queue_man_unlink_fd_epfd(int fd)
 {
     hashtable_remove(queues.hashtable_fds, fd);
+}
+
+int queue_man_link_demitofds(int demifd, int fd)
+{
+    return (hashtable_insert(queues.hashtabe_fdstodemi, demifd, fd));
+}
+
+int queue_man_query_demitofds(int demifd)
+{
+    return (hashtable_get(queues.hashtabe_fdstodemi, demifd));
+}
+
+
+void queue_man_unlink_fdstodemi(int fd)
+{
+    hashtable_remove(queues.hashtabe_fdstodemi, fd);
 }
 
 int queue_man_link_fd_demifd(int fd, int demifd)

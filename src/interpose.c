@@ -88,8 +88,11 @@ int (*libc_epoll_create1)(int);
 int (*libc_epoll_ctl)(int, int, int, struct epoll_event *);
 int (*libc_epoll_wait)(int, struct epoll_event *, int, int);
 int (*libc_fcntl)(int fd, int cmd, ...);
+int (*libc_ioctl)(int fd, unsigned long request, ...);
 
+__thread int reentrant = 0;
 __thread int reentrant_init = 0;
+
 // Initialization function with mutex
 void init_functions() {
     if (!is_initialized)
@@ -111,6 +114,12 @@ void init_functions() {
             assert((libc_fcntl = dlsym(RTLD_NEXT, "fcntl")) != NULL);
             assert((libc_epoll_wait = dlsym(RTLD_NEXT, "epoll_wait")) != NULL);
             assert((libc_accept = dlsym(RTLD_NEXT, "accept")) != NULL);
+            assert((libc_accept4 = dlsym(RTLD_NEXT, "accept4")) != NULL);
+            assert((libc_setsockopt = dlsym(RTLD_NEXT, "setsockopt")) != NULL);
+            assert((libc_getsockname = dlsym(RTLD_NEXT, "getsockname")) != NULL);
+            assert((libc_getpeername = dlsym(RTLD_NEXT, "getpeername")) != NULL);
+            assert((libc_ioctl = dlsym(RTLD_NEXT, "ioctl")) != NULL);
+            assert((libc_readv = dlsym(RTLD_NEXT, "readv")) != NULL);
             reentrant_init = 1;
             __demi_init();
             reentrant_init = 0;
@@ -130,13 +139,21 @@ int socket(int domain, int type, int protocol) {
 }
 
 int fcntl(int fd, int cmd, ... /* arg */) {
-    TRACE("fcntl %d", fd);
-    int demifd;
-    if((demifd = queue_man_query_fd_demifd(fd)) != -1)
-    {
-        return 1;
-    }
     init_functions();
+    TRACE("fcntl %d", fd);
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(fd)) != -1)
+        {
+            TRACE("detected demikernel socket %d cmd=%d", demifd, cmd);
+            switch(cmd)
+            {
+                case F_GETFD: return FD_CLOEXEC;
+                case F_GETFL: return O_RDWR | O_NONBLOCK;
+                default: return 0;
+            }
+        }
+    }
     va_list args;
     va_start(args, cmd);
     int result = libc_fcntl(fd, cmd, va_arg(args, long));  // Assuming the argument is 'long'
@@ -157,7 +174,6 @@ int fcntl(int fd, int cmd, ... /* arg */) {
 //     return libc_epoll_create(size);
 // }
 
-__thread int reentrant = 0;
 // __thread int epoll_ctl_reentrant = 0;
 // __thread int accept_reentrant = 0;
 // __thread int read_reentrant = 0;
@@ -203,12 +219,13 @@ int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 }
 
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
-    TRACE("Accept sockfd=%d reentrant=%d", sockfd, reentrant);
+    //TRACE("Accept sockfd=%d reentrant=%d", sockfd, reentrant);
     init_functions();
     assert(libc_accept != NULL);
     if(!reentrant) {
         int demifd;
         if((demifd = queue_man_query_fd_demifd(sockfd)) != -1) {
+           TRACE("demiAccept sockfd=%d demifd=%d reentrant=%d", sockfd, demifd, reentrant);
             reentrant = 1;
             int ret = __demi_accept(demifd, addr, addrlen);
             reentrant = 0;
@@ -219,7 +236,7 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 }
 
 int read(int fd, void *buf, size_t count){
-    TRACE("read fd=%d", fd);
+    TRACE("read fd=%d reentrant=%d", fd, reentrant);
     init_functions();
     assert(libc_read != NULL);
     if(!reentrant) {
@@ -289,6 +306,7 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen){
             reentrant = 0;
 
             queue_man_link_fd_demifd(sockfd, demifd);
+            queue_man_link_demitofds(demifd, sockfd);
             // mapping of demifd todemiepoll
             queue_man_register_linux_epfd(demifd, demiepoll);
 
@@ -318,6 +336,146 @@ int listen(int sockfd, int backlog) {
     }
     TRACE("listen completed");
     return libc_listen(sockfd, backlog);
+}
+
+int accept4(int sockfd, struct sockaddr *addr, socklen_t *addrlen, int flags)
+{
+    TRACE("accept4 %d reentrant=%d", sockfd, reentrant);
+    init_functions();
+    assert(libc_accept != NULL);
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(sockfd)) != -1) {
+            reentrant = 1;
+            int ret = __demi_accept4(demifd, addr, addrlen, flags);
+            reentrant = 0;
+            return ret;
+        }
+    }
+    return libc_accept4(sockfd, addr, addrlen, flags);
+}
+
+int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t optlen) {
+    TRACE("setsockopt fd=%d rentrant=%d", sockfd, reentrant);
+    init_functions();
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(sockfd)) != -1)
+        {
+            //sockfd = queue_man_query_demitofds(demifd);
+            //__demi_setsockopt(demifd, level, optname, optval, optlen);
+            return 0;
+        }
+    }
+    return libc_setsockopt(sockfd, level, optname, optval, optlen);
+}
+
+struct sockaddr_in create_ipv4_address(const char *ip_address, int port) {
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+
+    // Convert the IP address from presentation to network format
+    if (inet_pton(AF_INET, ip_address, &addr.sin_addr) <= 0) {
+        TRACE("error");
+    }
+
+    return addr;
+}
+
+void createGenericIPv6SocketAddress(const char *ip_address, int port, struct sockaddr *addr) {
+    memset(addr, 0, sizeof(*addr)); // Initialize the structure with zeros
+
+    struct sockaddr_in6 *addr_in6 = (struct sockaddr_in6 *)addr;
+    addr_in6->sin6_family = AF_INET6;
+    addr_in6->sin6_port = htons(port);
+
+    // Convert the IP address from presentation to network format
+    if (inet_pton(AF_INET6, ip_address, &addr_in6->sin6_addr) <= 0) {
+        TRACE("inet_pton");
+    }
+}
+
+int getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen){
+    TRACE("getsockname fd=%d", sockfd);
+    init_functions();
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(sockfd)) != -1)
+        {
+            TRACE("returning dummy sockname");
+            createGenericIPv6SocketAddress("::ffff:127.0.0.1", 15476, addr);
+            *addrlen = sizeof(struct sockaddr);
+            // sockfd = queue_man_query_demitofds(demifd);
+            // TRACE("getsockname sockfd=%d demifd-%d", sockfd, demifd);
+            return 0;
+            //__demi_setsockopt(demifd, level, optname, optval, optlen);
+        }
+    }
+    int ret = libc_getsockname(sockfd, addr, addrlen);
+    TRACE("getsockname %d", ret);
+    return ret;
+}
+
+int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
+   TRACE("getpeername fd=%d", sockfd);
+    init_functions();
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(sockfd)) != -1)
+        {
+            TRACE("returning dummy peername");
+            createGenericIPv6SocketAddress("::ffff:127.0.0.1", 47632, addr);
+            *addrlen = sizeof(struct sockaddr);
+            // sockfd = queue_man_query_demitofds(demifd);
+            //__demi_setsockopt(demifd, level, optname, optval, optlen);
+            return 0;
+        }
+    }
+    return libc_getpeername(sockfd, addr, addrlen);
+}
+
+int ioctl(int fd, unsigned long request, ...) {
+    TRACE("ioctl fd=%d reentrant=%d", fd, reentrant);
+    init_functions();
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(fd)) != -1)
+        {
+            struct demi_event *ev;
+            if ((ev = queue_man_get_pop_result(demifd)) != NULL)
+            {
+                TRACE("ioctl %d", ev->qr.qr_value.sga.sga_segs[0].sgaseg_len);
+                assert(ev->used == 1);
+                assert(ev->sockqd == fd);
+                assert(ev->qt == (demi_qtoken_t)-1);
+                assert(ev->qr.qr_value.sga.sga_numsegs == 1);
+                return ev->qr.qr_value.sga.sga_segs[0].sgaseg_len;
+            }
+        }
+    }
+    va_list args;
+    va_start(args, request);
+    int result = libc_ioctl(fd, request, va_arg(args, long));  // Assuming the argument is 'long'
+    va_end(args);
+    TRACE("ioctl ret=%d", result);
+    return result;
+}
+
+ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt) {
+    TRACE("readv fd=%d reentrant=%d", sockfd, reentrant);
+    init_functions();
+    if(!reentrant) {
+        int demifd;
+        if((demifd = queue_man_query_fd_demifd(sockfd)) != -1)
+        {
+            reentrant = 1;
+            int ret = __demi_readv(demifd, iov, iovcnt);
+            reentrant = 0;
+            return ret;
+        }
+    }
+    return libc_readv(sockfd, iov, iovcnt);
 }
 
 int close(int fd) {
