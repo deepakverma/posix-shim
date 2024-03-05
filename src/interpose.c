@@ -148,7 +148,6 @@ static void init(void)
 
         if (__demi_init() != 0)
             abort();
-
         initialized = true;
     }
 }
@@ -311,37 +310,29 @@ int socket(int domain, int type, int protocol)
 
 int epoll_create(int size)
 {
-    int ret = -1;
     int linux_epfd = -1;
-    int demikernel_epfd = -1;
-    init();
-
-    // Check if size argument is valid.
-    if (size < 0)
+    static int demikernel_epfd = -1;
+    static int reentrant = false;
+    if(reentrant)
     {
-        errno = EINVAL;
-        return -1;
+        if (linux_epfd == -1) 
+        {
+            linux_epfd = libc_epoll_create(size);
+            TRACE("return linux epfd %d", linux_epfd);
+            return linux_epfd;
+        }
     }
-
-    // First, create epoll on kernel side.
-    if ((ret = libc_epoll_create(size)) == -1)
-    {
-        ERROR("epoll_create() failed - %s", strerror(errno));
-        return (ret);
+    if(!initialized && !reentrant)
+    {   
+        reentrant=true;
+        init();
+        reentrant=false;
     }
+     linux_epfd = libc_epoll_create(size);
+     demikernel_epfd = __demi_epoll_create(size);
+     TRACE("created epfd lunux=%d demi%d", linux_epfd, demikernel_epfd);
+     queue_man_register_linux_epfd(linux_epfd, demikernel_epfd);
 
-    linux_epfd = ret;
-
-    int last_errno = errno;
-    if ((ret = __demi_epoll_create(size)) == -1 && errno == EBADF)
-    {
-        errno = last_errno;
-        return linux_epfd;
-    }
-
-    demikernel_epfd = ret;
-
-    queue_man_register_linux_epfd(linux_epfd, demikernel_epfd);
-
+    TRACE("return linux epfd %d", linux_epfd);
     return linux_epfd;
 }

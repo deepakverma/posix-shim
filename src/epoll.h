@@ -19,6 +19,10 @@ struct demi_event
     demi_qresult_t qr;
     struct epoll_event ev;
 };
+int readyOffset[MAX_EVENTS];
+demi_qresult_t epoll_qr[MAX_EVENTS];
+demi_qtoken_t epoll_qt[MAX_EVENTS];
+int epoll_offset[MAX_EVENTS];
 
 extern void epoll_table_init(void);
 extern int epoll_table_alloc(void);

@@ -48,6 +48,7 @@ static int __do_demi_epoll_ctl_add(int epfd, int fd, struct epoll_event *event)
                 if (queue_man_is_listen_fd(fd))
                 {
                     assert(demi_accept(&qt, fd) == 0);
+                    TRACE("accept token = %d", qt);
                 }
                 else
                 {

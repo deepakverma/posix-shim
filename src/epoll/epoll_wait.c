@@ -34,7 +34,71 @@ int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int t
     }
 
     TRACE("epfd=%d, events=%p, maxevents=%d, timeout=%d", epfd, (void *)events, maxevents, timeout);
+   
+    int total_qt = 0;
+    for (int i = 0; i < MAX_EVENTS; i++)
+    {
+         struct demi_event *ev = epoll_get_event(epfd, i);
+         if ((ev->used) && (ev->qt != (demi_qtoken_t)-1) && ev->qt!=0) {
+            epoll_qt[total_qt] = ev->qt;
+            epoll_offset[total_qt] = i;
+            total_qt++;
+         }
+    }
+    int numberofevents;
+    __epoll_reent_guard = 1;
+    demi_wait_many(epoll_qr, maxevents, readyOffset, epoll_qt, total_qt, &abstime, &numberofevents);
+    __epoll_reent_guard = 0;
+    TRACE("numberof events %d\n", numberofevents);
+    for (int i = 0; i < numberofevents; i++) {
+        TRACE("readyoffset %d epoll offset %d", readyOffset[i], epoll_offset[readyOffset[i]]);
+        struct demi_event *ev = epoll_get_event(epfd, epoll_offset[readyOffset[i]]);
+        ev->qr = epoll_qr[i];
+        ev->qt = (demi_qtoken_t)-1;
+        switch (ev->qr.qr_opcode)
+            {
+            case DEMI_OPC_ACCEPT: {
+                // Fill in event.
+                events[nevents].events = ev->ev.events;
+                events[nevents].data.fd = ev->sockqd;
+                nevents++;
 
+                // Store I/O queue operation result.
+                queue_man_set_accept_result(ev->sockqd, ev);
+            }
+            break;
+            case DEMI_OPC_CONNECT: {
+                // TODO: implement.
+                UNIMPLEMETED("parse result of demi_connect()");
+            }
+            break;
+            case DEMI_OPC_POP: {
+
+                // Fill in event.
+                events[nevents].events = ev->ev.events;
+                events[nevents].data.fd = ev->sockqd;
+                events[nevents].data.ptr = ev->ev.data.ptr;
+                events[nevents].data.u32 = ev->ev.data.u32;
+                nevents++;
+
+                // Store I/O queue operation result.
+                queue_man_set_pop_result(ev->sockqd, ev);
+            }
+            break;
+            case DEMI_OPC_PUSH: {
+                // TODO: implement.
+                UNIMPLEMETED("parse result of demi_push()")
+            }
+            break;
+
+            default: {
+                // TODO: implement.
+                UNIMPLEMETED("signal that Demikernel operation failed");
+            }
+            break;
+            }
+    }
+    /*
     // Traverse events.
     for (int i = 0; i < MAX_EVENTS && i < maxevents; i++)
     {
@@ -99,7 +163,7 @@ int __demi_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int t
             break;
             }
         }
-    }
+    }*/
 
     return nevents;
 }
